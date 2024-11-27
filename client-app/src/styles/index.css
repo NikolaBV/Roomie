@@ -1,0 +1,98 @@
+:root {
+  --primary-color: #ad49e1;
+  --secondary-color: #582572;
+  --dark-color: #39154b;
+  --very-dark-color: #000000;
+
+  --link-color: #ececec;
+  --link-color-hover: #d1c8c8;
+
+  --text-color: #e0e0e0;
+  --heading-color: black;
+
+  --gradient-background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--secondary-color),
+    var(--dark-color)
+  );
+  --gradient-footer-background: linear-gradient(
+    135deg,
+    var(--dark-color),
+    var(--very-dark-color)
+  );
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+  color: var(--text-color);
+  font-family: "Oswald", serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--heading-color);
+}
+.nav-bar-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  background: var(--gradient-background);
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.nav-bar-items {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  padding: 1.2rem;
+}
+
+.nav-bar-items h1 {
+  margin: 0 10px;
+  padding: 5px 15px;
+  font-size: 1.8rem;
+}
+
+.right-navbar {
+  display: flex;
+  margin-right: 1rem;
+}
+
+.footer-container {
+  border-top: 3px solid black;
+  background: var(--gradient-footer-background);
+  width: 100%;
+  height: 15rem;
+}
+
+.footer-items {
+  display: flex;
+  color: var(--text-color);
+  gap: 1rem;
+  justify-content: center;
+  align-content: center;
+}
+.force-link {
+  color: var(--link-color);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+}
+
+.force-link:hover {
+  color: var(--link-color-hover);
+  text-decoration: none;
+}
