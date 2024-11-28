@@ -1,25 +1,24 @@
+@import url("https://fonts.googleapis.com/css2?family=Modern+Antiqua&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 :root {
-  --primary-color: #ad49e1;
-  --secondary-color: #582572;
-  --dark-color: #39154b;
-  --very-dark-color: #000000;
+  --primary-color: #ebf2fa;
+  --secondary-color: #427aa1;
+  --dark-color: #064789;
+  --very-dark-color: #06478998;
 
-  --link-color: #ececec;
-  --link-color-hover: #d1c8c8;
+  --link-color: #fff8f0;
+  --link-color-hover: rgba(194, 194, 194, 0.726);
 
-  --text-color: #e0e0e0;
-  --heading-color: black;
+  --text-color: black;
 
   --gradient-background: linear-gradient(
     135deg,
     var(--primary-color),
-    var(--secondary-color),
-    var(--dark-color)
+    var(--secondary-color)
   );
-  --gradient-footer-background: linear-gradient(
+  --gradient-dark-background: linear-gradient(
     135deg,
     var(--dark-color),
-    var(--very-dark-color)
+    var(--primary-color)
   );
 }
 
@@ -28,35 +27,41 @@
   padding: 0;
   text-decoration: none;
   color: var(--text-color);
-  font-family: "Oswald", serif;
+  font-family: "Montserrat";
 }
 
 html {
   scroll-behavior: smooth;
 }
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  color: var(--heading-color);
+body {
+  background-color: var(--primary-color);
 }
+.container {
+  background-color: var(--primary-color);
+}
+
+.heading-text {
+  color: var(--text-color);
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+body {
+  min-height: 100vh;
+  margin: 0;
+  background-color: var(--primary-color);
+}
+
 .nav-bar-container {
   display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  background: var(--gradient-background);
+  flex-direction: row-reverse;
+  background: var(--primary-color);
   overflow: hidden;
   box-sizing: border-box;
 }
 
 .nav-bar-items {
   display: flex;
-  flex: 1;
-  justify-content: center;
-  align-items: center;
+  margin-right: 5rem;
   padding: 1.2rem;
 }
 
@@ -72,10 +77,11 @@ h6 {
 }
 
 .footer-container {
-  border-top: 3px solid black;
-  background: var(--gradient-footer-background);
+  background: var(--gradient-dark-background);
   width: 100%;
   height: 15rem;
+  position: fixed;
+  bottom: 0;
 }
 
 .footer-items {
@@ -84,6 +90,7 @@ h6 {
   gap: 1rem;
   justify-content: center;
   align-content: center;
+  padding: 2rem;
 }
 .force-link {
   color: var(--link-color);

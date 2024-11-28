@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Key, useState } from "react";
 
 export default function Navbar() {
-  const [current, setCurrent] = useState("");
+  const [current, setCurrent] = useState<Key | undefined>("");
   const navigate = useNavigate();
 
   type MenuItem = Required<MenuProps>["items"][number];
@@ -12,18 +12,25 @@ export default function Navbar() {
   const menuItems: MenuItem[] = [
     {
       key: "1",
-      label: <h1 className="force-link">Home</h1>,
+      label: <p className="heading-text">Home</p>,
       onClick: () => navigate("/"),
     },
     {
-      key: "3",
-      label: <h1 className="force-link">Posts</h1>,
+      key: "2",
+      label: <p className="heading-text">Posts</p>,
       onClick: () => navigate("/posts"),
+    },
+    {
+      key: "4",
+      label: <p className="heading-text">Sign In</p>,
+      onClick: () => navigate("/sign-in"),
     },
   ];
 
   const onClick = (item: MenuItem) => {
-    setCurrent(item?.key);
+    if (item) {
+      setCurrent(item?.key);
+    }
   };
   return (
     <ConfigProvider
@@ -43,27 +50,9 @@ export default function Navbar() {
           theme="dark"
           items={menuItems}
           selectedKeys={[current]}
-          className="nav-bar-items"
           onClick={(item) => onClick(item)}
+          className="nav-bar-items"
         />
-        <div className="right-navbar">
-          <Tooltip title="Shopping Cart">
-            <ShoppingCartOutlined
-              style={{
-                fontSize: "2rem",
-                marginRight: "2rem",
-              }}
-              className="force-link"
-            />
-          </Tooltip>
-
-          <Tooltip title="Go To Profile">
-            <UserOutlined
-              style={{ fontSize: "2rem", color: "var(--link-color)" }}
-              className="force-link"
-            />
-          </Tooltip>
-        </div>
       </div>
     </ConfigProvider>
   );
