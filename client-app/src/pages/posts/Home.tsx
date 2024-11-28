@@ -9,6 +9,9 @@ export default function Posts() {
       return agent.Posts.list();
     },
   });
+
+  const placeholders = Array(6).fill(null);
+
   return (
     <>
       <div
@@ -25,12 +28,25 @@ export default function Posts() {
           <h1 style={{ fontSize: "5rem" }}>Posts</h1>
         </div>
         <div className="grid-container">
-          {postsQuery?.data?.map((post) => (
-            <PostCard
-              title={post.title}
-              description={post.description}
-            ></PostCard>
-          ))}
+          {postsQuery.isLoading
+            ? placeholders.map((_, index) => (
+                <PostCard
+                  id="id"
+                  key={index}
+                  isLoading={postsQuery.isLoading}
+                  title={""}
+                  description={""}
+                />
+              ))
+            : postsQuery?.data?.map((post) => (
+                <PostCard
+                  key={post.id}
+                  id={post.id}
+                  title={post.title}
+                  description={post.description}
+                  isLoading={false}
+                />
+              ))}
         </div>
       </div>
     </>
