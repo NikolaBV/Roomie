@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import HomePage from "./pages/home-page/Home";
 import PageLayout from "./components/PageLayout";
+import Posts from "./pages/posts/Home";
 
 const queryClient = new QueryClient();
 
@@ -16,6 +17,7 @@ const AppProvider = () => {
           <PageLayout>
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/posts" element={<Posts />} />
             </Routes>
           </PageLayout>
         </BrowserRouter>

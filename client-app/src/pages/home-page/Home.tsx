@@ -1,18 +1,8 @@
-import { useQuery } from "@tanstack/react-query";
 import "../../styles/index.css";
-import agent from "../../api/agent";
 import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 
 export default function HomePage() {
-  const ordersQuery = useQuery({
-    queryKey: ["ordersQuery"],
-    queryFn: () => {
-      return agent.Orders.list();
-    },
-  });
-  console.log(ordersQuery.data);
-
   const navigate = useNavigate();
 
   return (
@@ -23,7 +13,7 @@ export default function HomePage() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "100%",
+          height: "100vh",
         }}
       >
         <div

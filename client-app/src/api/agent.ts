@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Order } from "./models";
+import { Post } from "./models";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
@@ -12,13 +12,13 @@ const requests = {
   delete: <T>(url: string) => axios.delete<T>(url).then(responseBody),
 };
 
-const Orders = {
-  list: () => requests.get<Order>("/orders"),
-  details: (id: string) => requests.get<Order>(`/order/${id}`),
+const Posts = {
+  list: () => requests.get<Post[]>("/posts"),
+  details: (id: string) => requests.get<Post>(`/posts/${id}`),
 };
 
 const agent = {
-  Orders,
+  Posts,
 };
 
 export default agent;

@@ -1,9 +1,7 @@
-export interface Order {
+export interface Post {
   id: string;
-  address: string;
-  dateOfCreation: string;
-  status: string;
-  productsSumPrice: number;
-  deliveryFee: number;
-  totalPrice: number;
+  title: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
 }
