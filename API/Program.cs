@@ -21,6 +21,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("CorsPolicy");
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -31,9 +32,9 @@ var services = scope.ServiceProvider;
 try
 {
     var context = services.GetRequiredService<DataContext>();
-     var userManager = services.GetRequiredService<UserManager<User>>();
+    var userManager = services.GetRequiredService<UserManager<User>>();
     context.Database.Migrate();
-    await Seed.SeedData(context,userManager);
+    await Seed.SeedData(context, userManager);
 }
 catch (Exception ex)
 {
