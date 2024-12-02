@@ -1,10 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import agent from "../../api/agent";
 import { Button, Image } from "antd";
+import { RoomateRequestCreateModel } from "../../api/models";
+import { getUserId } from "../../utils/globals";
 
 export default function Post() {
   const { id } = useParams();
+
   const postDetails = useQuery({
     queryKey: ["postsQuery", id],
     queryFn: () => {
@@ -12,10 +15,22 @@ export default function Post() {
     },
   });
 
-  console.log(postDetails.data);
+  const createRequest = useMutation({
+    mutationKey: ["createRequest"],
+    mutationFn: (model: RoomateRequestCreateModel) => {
+      return agent.RoomateRequests.create(model);
+    },
+  });
 
   const onRequestClick = () => {
-    console.log("New request");
+    const token = getUserId(localStorage.getItem("token"));
+    if (token && id) {
+      const model: RoomateRequestCreateModel = {
+        userId: token.nameid,
+        postId: id,
+      };
+      createRequest.mutate(model);
+    }
   };
 
   return (

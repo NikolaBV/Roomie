@@ -1,4 +1,4 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { LoginModel } from "../../api/models";
 import { useMutation } from "@tanstack/react-query";
 import agent from "../../api/agent";
@@ -6,11 +6,27 @@ import agent from "../../api/agent";
 export default function SignIn() {
   const loginMutation = useMutation({
     mutationKey: ["login"],
+    mutationFn: (model: LoginModel) => {
+      return agent.Accounts.login(model);
+    },
+    onError: () => {
+      message.error("Incorrect Email or Password");
+    },
+    onSuccess: (data) => {
+      //TODO FIX THIS WHOLE CHECK FOR LOG IN BECAUSE ITS DISGUSTING
+      if (data) {
+        localStorage.setItem("token", data.token);
+        window.location.href = "http://localhost:3000/posts";
+      }
+    },
   });
+
   //TODO Finish login
   const handleSubmit = (values: LoginModel) => {
     console.log(values);
+    loginMutation.mutate(values);
   };
+
   return (
     <>
       <div className="container" style={{ height: "100vh" }}>

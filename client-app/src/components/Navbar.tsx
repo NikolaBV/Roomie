@@ -1,5 +1,4 @@
-import { ConfigProvider, Menu, MenuProps, Tooltip } from "antd";
-import { ShoppingCartOutlined, UserOutlined } from "@ant-design/icons";
+import { ConfigProvider, Menu, MenuProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import { Key, useState } from "react";
 
@@ -22,7 +21,11 @@ export default function Navbar() {
     },
     {
       key: "4",
-      label: <p className="heading-text">Sign In</p>,
+      label: (
+        <p className="heading-text">
+          {localStorage.getItem("token") ? "Profile" : "Sign In"}
+        </p>
+      ),
       onClick: () => navigate("/sign-in"),
     },
   ];
