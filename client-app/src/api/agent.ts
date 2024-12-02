@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { Post } from "./models";
+import { LoginModel, Post, UserDTO } from "./models";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
@@ -17,8 +17,13 @@ const Posts = {
   details: (id: string) => requests.get<Post>(`/posts/${id}`),
 };
 
+const Accounts = {
+  login: (loginDTO: LoginModel) =>
+    requests.post<UserDTO>("/accounts/login", loginDTO),
+};
 const agent = {
   Posts,
+  Accounts,
 };
 
 export default agent;

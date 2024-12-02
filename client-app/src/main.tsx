@@ -7,6 +7,7 @@ import HomePage from "./pages/home/Home";
 import PageLayout from "./components/PageLayout";
 import Posts from "./pages/posts/Home";
 import Post from "./pages/post/Home";
+import SignIn from "./pages/sign-in/Home";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const AppProvider = () => {
               <Route path="/" element={<HomePage />} />
               <Route path="/posts" element={<Posts />} />
               <Route path="/posts/:id" element={<Post />} />
+              <Route path="/sign-in" element={<SignIn />} />
             </Routes>
           </PageLayout>
         </BrowserRouter>

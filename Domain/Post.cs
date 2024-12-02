@@ -7,7 +7,7 @@ namespace Domain
         public Guid Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public PostStatus Status { get; set; }
+        public bool Status { get; set; }
         public int FreeSpots { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }

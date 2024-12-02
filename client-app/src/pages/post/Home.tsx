@@ -14,6 +14,10 @@ export default function Post() {
 
   console.log(postDetails.data);
 
+  const onRequestClick = () => {
+    console.log("New request");
+  };
+
   return (
     <div
       className="container"
@@ -71,16 +75,20 @@ export default function Post() {
           <p
             style={{
               fontSize: "1rem",
-              margin: "0",
+              marginBottom: "1rem",
               lineHeight: "1.5",
               wordBreak: "break-word",
             }}
           >
             {postDetails.data?.description}
           </p>
+          <p style={{ fontWeight: "500" }}>
+            Free Spots: {postDetails.data?.freeSpots}
+          </p>
         </div>
         <div id="footer">
           <Button
+            onClick={onRequestClick}
             style={{
               height: "3rem",
               backgroundColor: "var( --secondary-color)",
