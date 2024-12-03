@@ -26,7 +26,8 @@ export default function Navbar() {
           {localStorage.getItem("token") ? "Profile" : "Sign In"}
         </p>
       ),
-      onClick: () => navigate("/sign-in"),
+      onClick: () =>
+        navigate(localStorage.getItem("token") ? "/profile" : "/sign-in"),
     },
   ];
 
