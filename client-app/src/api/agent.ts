@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import {
   LoginModel,
   Post,
+  PostDetailsResult,
   RoomateRequest,
   RoomateRequestCreateModel,
   UserDTO,
@@ -20,7 +21,10 @@ const requests = {
 
 const Posts = {
   list: () => requests.get<Post[]>("/posts"),
-  details: (id: string) => requests.get<Post>(`/posts/${id}`),
+  details: (id: string, userId?: string) => {
+    const url = userId ? `/posts/${id}?userId=${userId}` : `/posts/${id}`;
+    return requests.get<PostDetailsResult>(url);
+  },
 };
 
 const Accounts = {

@@ -14,9 +14,9 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Details(Guid id, CancellationToken cancellationToken)
+        public async Task<IActionResult> Details(Guid id, [FromQuery] string? userId, CancellationToken cancellationToken)
         {
-            return HandleResult(await Mediator.Send(new Details.Query { Id = id }, cancellationToken));
+            return HandleResult(await Mediator.Send(new Details.Query { PostId = id, UserId = userId }, cancellationToken));
         }
 
         //As we are not returning anything, use IActionResult instead of ActionResult<T>

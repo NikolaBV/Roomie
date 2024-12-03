@@ -3,7 +3,7 @@
 import { jwtDecode } from "jwt-decode";
 import { DecodedToken } from "../api/models";
 
-export const getUserId = (token: string | null): DecodedToken | undefined => {
+export const decodeToken = (token: string | null): DecodedToken | undefined => {
   if (token) {
     const decoded = jwtDecode(token);
     return decoded as DecodedToken;

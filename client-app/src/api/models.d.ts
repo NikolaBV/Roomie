@@ -38,3 +38,8 @@ export interface DecodedToken {
   nbf: number;
   unique_name: string;
 }
+
+export interface PostDetailsResult {
+    post: Post;
+    hasUserRequestedThePost: boolean;
+}

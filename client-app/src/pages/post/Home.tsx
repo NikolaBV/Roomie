@@ -1,18 +1,20 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import agent from "../../api/agent";
 import { Button, Image } from "antd";
 import { RoomateRequestCreateModel } from "../../api/models";
-import { getUserId } from "../../utils/globals";
+import { decodeToken } from "../../utils/globals";
 
 export default function Post() {
   const { id } = useParams();
+  const queryClient = useQueryClient();
+  const token = decodeToken(localStorage.getItem("token"));
 
   const postDetails = useQuery({
     queryKey: ["postsQuery", id],
-    queryFn: () => {
-      return agent.Posts.details(id as string);
-    },
+    queryFn: () => agent.Posts.details(id as string, token?.nameid),
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
   });
 
   const createRequest = useMutation({
@@ -20,10 +22,12 @@ export default function Post() {
     mutationFn: (model: RoomateRequestCreateModel) => {
       return agent.RoomateRequests.create(model);
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["postsQuery"] });
+    },
   });
 
   const onRequestClick = () => {
-    const token = getUserId(localStorage.getItem("token"));
     if (token && id) {
       const model: RoomateRequestCreateModel = {
         userId: token.nameid,
@@ -85,7 +89,7 @@ export default function Post() {
               wordBreak: "break-word",
             }}
           >
-            {postDetails.data?.title}
+            {postDetails.data?.post.title}
           </h2>
           <p
             style={{
@@ -95,14 +99,16 @@ export default function Post() {
               wordBreak: "break-word",
             }}
           >
-            {postDetails.data?.description}
+            {postDetails.data?.post.description}
           </p>
           <p style={{ fontWeight: "500" }}>
-            Free Spots: {postDetails.data?.freeSpots}
+            Free Spots: {postDetails.data?.post.freeSpots}
           </p>
         </div>
         <div id="footer">
+          {/*TODO DIsable the button and display a message to the user if they have already sent a request to the post */}
           <Button
+            disabled={postDetails?.data?.hasUserRequestedThePost}
             onClick={onRequestClick}
             style={{
               height: "3rem",
@@ -111,7 +117,9 @@ export default function Post() {
             }}
           >
             <span style={{ color: "white", fontWeight: "600" }}>
-              Send A Request
+              {postDetails?.data?.hasUserRequestedThePost
+                ? "You have already sent a request"
+                : "Send Request"}
             </span>
           </Button>
         </div>

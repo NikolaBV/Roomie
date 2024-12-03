@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Domain.Enums;
 
 namespace Domain
@@ -12,6 +13,7 @@ namespace Domain
         public string UserId { get; set; }
         public User User { get; set; }
         public Guid PostId { get; set; }
+        [JsonIgnore]
         public Post Post { get; set; }
     }
 }
