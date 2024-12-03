@@ -20,7 +20,6 @@ namespace API.Controllers
         }
 
         //As we are not returning anything, use IActionResult instead of ActionResult<T>
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Create(Post Post, CancellationToken cancellationToken)
         {
@@ -40,5 +39,11 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new Delete.Command { Id = id }, cancellationToken));
         }
+        [HttpGet("get-post-by-user")]
+        public async Task<IActionResult> GetPostByUser([FromQuery] string userId, CancellationToken cancellationToken)
+        {
+            return HandleResult(await Mediator.Send(new PostsByUser.Query {UserId = userId},cancellationToken));
+        }
     }
+    
 }

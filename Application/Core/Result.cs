@@ -12,7 +12,5 @@ namespace Application.Core
         public string Error { get; set; }
         public static Result<T> Success(T value) => new Result<T> { isSuccess = true, Value = value };
         public static Result<T> Faliure(string error) => new Result<T> { isSuccess = false, Error = error };
-
-
     }
 }

@@ -25,6 +25,8 @@ const Posts = {
     const url = userId ? `/posts/${id}?userId=${userId}` : `/posts/${id}`;
     return requests.get<PostDetailsResult>(url);
   },
+  getPostByUser: (userId: string) =>
+    requests.get<Post[]>(`/posts/get-post-by-user?userId=${userId}`),
 };
 
 const Accounts = {

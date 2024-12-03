@@ -1,6 +1,11 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Table } from "antd";
+import { decodeToken } from "../../utils/globals";
+import agent from "../../api/agent";
+import { useEffect } from "react";
 
 export default function Profile() {
+  const token = decodeToken(localStorage.getItem("token"));
   const columns = [
     {
       title: "User Id",
@@ -8,6 +13,17 @@ export default function Profile() {
       key: "userId",
     },
   ];
+  const userPosts = useQuery({
+    queryKey: ["usersPosts"],
+    queryFn: () => {
+      if (token) {
+        return agent.Posts.getPostByUser(token?.nameid);
+      }
+    },
+    enabled: !!token,
+    retry: false,
+  });
+
   return (
     <>
       <div className="container" style={{ height: "100vh" }}>
@@ -37,6 +53,7 @@ export default function Profile() {
             >
               <p className="heading-text">Profile</p>
             </div>
+            <p className="heading-text">Requests waiting approval</p>
             <Table columns={columns}></Table>
           </div>
         </div>
