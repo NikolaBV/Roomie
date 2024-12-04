@@ -3,8 +3,10 @@ import {
   LoginModel,
   Post,
   PostDetailsResult,
+  RequestStatus,
   RoomateRequest,
   RoomateRequestCreateModel,
+  UpdateRequestStatusDTO,
   UserDTO,
 } from "./models";
 
@@ -37,6 +39,16 @@ const Accounts = {
 const RoomateRequests = {
   create: (model: RoomateRequestCreateModel) =>
     requests.post<RoomateRequest>("/RoomateRequests", model),
+  getRequestsForPost: (postId: string) =>
+    requests.get<RoomateRequest[]>(
+      `/RoomateRequests/get-requests-for-post?postId=${postId}`
+    ),
+  getRequestsForUser: (userId: string) =>
+    requests.get<RoomateRequest[]>(
+      `/RoomateRequests/get-requests-for-user?userId=${userId}`
+    ),
+  updateStatus: (model: UpdateRequestStatusDTO) =>
+    requests.put(`/RoomateRequests/update-status`, model),
 };
 const agent = {
   Posts,

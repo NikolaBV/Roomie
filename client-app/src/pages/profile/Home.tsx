@@ -3,8 +3,12 @@ import { Table } from "antd";
 import { decodeToken } from "../../utils/globals";
 import agent from "../../api/agent";
 import { Post } from "../../api/models";
+import { useState } from "react";
+import PendingRequests from "./components/PendingRequests";
 
 export default function Profile() {
+  const [selectedProjectId, setselectedProjectId] = useState("");
+
   const token = decodeToken(localStorage.getItem("token"));
   //TODO Add the requsts pop up with the requests table
   const userPosts = useQuery({
@@ -18,7 +22,18 @@ export default function Profile() {
     retry: false,
   });
 
-  const columns = [
+  const userReuests = useQuery({
+    queryKey: ["userReuests"],
+    queryFn: () => {
+      if (token) {
+        return agent.RoomateRequests.getRequestsForUser(token?.nameid);
+      }
+    },
+    enabled: !!token,
+    retry: false,
+  });
+
+  const postColumns = [
     {
       title: "Title",
       dataIndex: "title",
@@ -33,7 +48,12 @@ export default function Profile() {
       title: "Requests",
       key: "requests",
       render: (record: Post) => (
-        <span className="force-link">
+        <span
+          className="force-link"
+          onClick={() => {
+            setselectedProjectId(record.id);
+          }}
+        >
           <p>
             <span style={{ marginRight: "0.25rem" }}>
               {" "}
@@ -48,23 +68,36 @@ export default function Profile() {
     },
   ];
 
+  const requestsColumns = [
+    {
+      title: "Post Id",
+      dataIndex: "postId",
+      key: "postId",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+    },
+  ];
   return (
     <>
-      <div className="container" style={{ height: "100vh" }}>
+      <div className="container" style={{ height: "100%" }}>
         <div
           style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
+            height: "100%",
           }}
         >
           <div
             style={{
-              background: "white",
               width: "60%",
               height: "auto",
               padding: "2rem",
+              marginBottom: "2rem",
             }}
           >
             <div
@@ -77,14 +110,34 @@ export default function Profile() {
             >
               <p className="heading-text">Profile</p>
             </div>
-            <p className="heading-text">Requests waiting approval</p>
+            <div>
+              <p className="heading-text" style={{ margin: "1rem 0 1rem 0" }}>
+                Requests waiting approval
+              </p>
+              <Table
+                columns={postColumns}
+                dataSource={userPosts.data}
+                pagination={false}
+              ></Table>
+            </div>
+            <div className="heading-text" style={{ margin: "1rem 0 1rem 0" }}>
+              My Requests
+            </div>
             <Table
-              columns={columns}
-              dataSource={userPosts.data}
+              columns={requestsColumns}
+              dataSource={userReuests.data}
               pagination={false}
             ></Table>
           </div>
         </div>
+        {selectedProjectId && (
+          <PendingRequests
+            selectedProjectId={selectedProjectId}
+            onCancel={() => {
+              setselectedProjectId("");
+            }}
+          ></PendingRequests>
+        )}
       </div>
     </>
   );

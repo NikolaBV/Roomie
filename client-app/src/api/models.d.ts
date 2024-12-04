@@ -1,4 +1,4 @@
-type RequestStatus = "Pending" | "Rejected" | "Approved";
+export type RequestStatus = "Pending" | "Rejected" | "Approved";
 export interface Post {
   id: string;
   title: string;
@@ -25,12 +25,16 @@ export interface RoomateRequestCreateModel {
 
 export interface RoomateRequest {
   id: string;
-  status: RequestStatus;
+  status: string;
   createdAt: string;
   userId: string;
   user: User;
   postId: string;
   post: Post;
+}
+export interface UpdateRequestStatusDTO {
+  requestId: string;
+  newStatus: RequestStatus;
 }
 export interface DecodedToken {
   exp: number;
@@ -43,4 +47,5 @@ export interface DecodedToken {
 export interface PostDetailsResult {
   post: Post;
   hasUserRequestedThePost: boolean;
+  requestStatus?: RequestStatus;
 }
