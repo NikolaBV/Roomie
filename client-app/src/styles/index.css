@@ -107,7 +107,6 @@ body {
 }
 
 .force-link {
-  color: var(--link-color);
   text-decoration: none;
   cursor: pointer;
   transition: color 0.3s ease-in-out;

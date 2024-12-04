@@ -7,6 +7,7 @@ export interface Post {
   freeSpots: number;
   createdAt: string;
   updatedAt: string;
+  roomateRequests: RoomateRequest[];
 }
 export interface LoginModel {
   email: string;
@@ -40,6 +41,6 @@ export interface DecodedToken {
 }
 
 export interface PostDetailsResult {
-    post: Post;
-    hasUserRequestedThePost: boolean;
+  post: Post;
+  hasUserRequestedThePost: boolean;
 }

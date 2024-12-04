@@ -23,7 +23,7 @@ namespace Application.Posts
 
             public async Task<Result<List<Post>>> Handle(Query request, CancellationToken cancellationToken)
             {
-                var posts =  await _context.Posts.Where(p => p.UserId == request.UserId).ToListAsync();
+                var posts =  await _context.Posts.Where(p => p.UserId == request.UserId).Include(p => p.RoomateRequests).ToListAsync();
                 return Result<List<Post>>.Success(posts);
             }
         }

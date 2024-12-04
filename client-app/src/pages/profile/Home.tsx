@@ -1,18 +1,12 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { Table } from "antd";
 import { decodeToken } from "../../utils/globals";
 import agent from "../../api/agent";
-import { useEffect } from "react";
+import { Post } from "../../api/models";
 
 export default function Profile() {
   const token = decodeToken(localStorage.getItem("token"));
-  const columns = [
-    {
-      title: "User Id",
-      dataIndex: "userId",
-      key: "userId",
-    },
-  ];
+  //TODO Add the requsts pop up with the requests table
   const userPosts = useQuery({
     queryKey: ["usersPosts"],
     queryFn: () => {
@@ -23,6 +17,36 @@ export default function Profile() {
     enabled: !!token,
     retry: false,
   });
+
+  const columns = [
+    {
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+      key: "Description",
+    },
+    {
+      title: "Requests",
+      key: "requests",
+      render: (record: Post) => (
+        <span className="force-link">
+          <p>
+            <span style={{ marginRight: "0.25rem" }}>
+              {" "}
+              {record.roomateRequests
+                ? `(${record.roomateRequests.length})`
+                : ""}
+            </span>
+            Requests
+          </p>
+        </span>
+      ),
+    },
+  ];
 
   return (
     <>
@@ -39,7 +63,7 @@ export default function Profile() {
             style={{
               background: "white",
               width: "60%",
-              height: "20rem",
+              height: "auto",
               padding: "2rem",
             }}
           >
@@ -54,7 +78,11 @@ export default function Profile() {
               <p className="heading-text">Profile</p>
             </div>
             <p className="heading-text">Requests waiting approval</p>
-            <Table columns={columns}></Table>
+            <Table
+              columns={columns}
+              dataSource={userPosts.data}
+              pagination={false}
+            ></Table>
           </div>
         </div>
       </div>
