@@ -49,3 +49,13 @@ export interface PostDetailsResult {
   hasUserRequestedThePost: boolean;
   requestStatus: RequestStatus;
 }
+export interface CreatePostModel {
+  title: string;
+  description: string;
+  freeSpots: number;
+  status: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  createdAt: Date;
+  userId: string | undefined;
+}

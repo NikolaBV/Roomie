@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import {
+  CreatePostModel,
   LoginModel,
   Post,
   PostDetailsResult,
@@ -27,6 +28,7 @@ const Posts = {
     const url = userId ? `/posts/${id}?userId=${userId}` : `/posts/${id}`;
     return requests.get<PostDetailsResult>(url);
   },
+  create: (model: CreatePostModel) => requests.post("/posts", model),
   getPostByUser: (userId: string) =>
     requests.get<Post[]>(`/posts/get-post-by-user?userId=${userId}`),
 };

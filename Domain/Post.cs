@@ -11,8 +11,6 @@ namespace Domain
         public int FreeSpots { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-
-
         public string UserId { get; set; }
         public User Creator { get; set; }
         public ICollection<RoomateRequest> RoomateRequests { get; set; }
