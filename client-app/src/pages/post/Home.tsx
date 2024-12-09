@@ -117,9 +117,14 @@ export default function Post() {
             }}
           >
             <span style={{ color: "white", fontWeight: "600" }}>
-              {postDetails?.data?.hasUserRequestedThePost
-                ? "You have already sent a request"
-                : "Send Request"}
+              {postDetails?.data?.requestStatus === "None" &&
+                "Send a Roomie Request"}
+              {postDetails?.data?.requestStatus === "Pending" &&
+                "Pending Request"}
+              {postDetails?.data?.requestStatus === "Rejected" &&
+                "You have been rejected"}
+              {postDetails?.data?.requestStatus === "Approved" &&
+                "You are a Roomie!"}
             </span>
           </Button>
         </div>

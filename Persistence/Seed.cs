@@ -107,7 +107,7 @@ namespace Persistence
                     new RoomateRequest
                     {
                         Id = Guid.NewGuid(),
-                        Status = RequestStatus.Pending,
+                        Status = RequestStatus.None,
                         CreatedAt = DateTime.Now.AddDays(-3),
                         UserId = user2.Id,
                         PostId = seededPosts.First(p => p.Title == "Cozy Apartment in City Center").Id
@@ -115,7 +115,7 @@ namespace Persistence
                     new RoomateRequest
                     {
                         Id = Guid.NewGuid(),
-                        Status = RequestStatus.Approved,
+                        Status = RequestStatus.None,
                         CreatedAt = DateTime.Now.AddDays(-2),
                         UserId = user1.Id,
                         PostId = seededPosts.First(p => p.Title == "Room Available Near University").Id
@@ -123,10 +123,26 @@ namespace Persistence
                     new RoomateRequest
                     {
                         Id = Guid.NewGuid(),
-                        Status = RequestStatus.Rejected,
+                        Status = RequestStatus.None,
                         CreatedAt = DateTime.Now.AddDays(-1),
                         UserId = user2.Id,
                         PostId = seededPosts.First(p => p.Title == "Furnished Room in Quiet Neighborhood").Id
+                    },
+                    new RoomateRequest
+                    {
+                        Id = Guid.NewGuid(),
+                        Status = RequestStatus.None,
+                        CreatedAt = DateTime.Now,
+                        UserId = user1.Id,
+                        PostId = seededPosts.First(p => p.Title == "Shared House with Garden").Id
+                    },
+                    new RoomateRequest
+                    {
+                        Id = Guid.NewGuid(),
+                        Status = RequestStatus.None,
+                        CreatedAt = DateTime.Now,
+                        UserId = user2.Id,
+                        PostId = seededPosts.First(p => p.Title == "Modern Apartment with Rooftop Access").Id
                     }
                 };
 

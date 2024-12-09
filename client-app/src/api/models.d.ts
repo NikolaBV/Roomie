@@ -1,4 +1,4 @@
-export type RequestStatus = "Pending" | "Rejected" | "Approved";
+export type RequestStatus = "Pending" | "Rejected" | "Approved" | "None";
 export interface Post {
   id: string;
   title: string;
@@ -47,5 +47,5 @@ export interface DecodedToken {
 export interface PostDetailsResult {
   post: Post;
   hasUserRequestedThePost: boolean;
-  requestStatus?: RequestStatus;
+  requestStatus: RequestStatus;
 }

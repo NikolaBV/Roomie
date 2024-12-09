@@ -1,5 +1,6 @@
 using Application.Core;
 using Domain;
+using Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence;
@@ -13,6 +14,7 @@ namespace Application.Posts
             public Guid PostId { get; set; }
             public string UserId { get; set; }
         }
+
         public class Handler : IRequestHandler<Query, Result<PostDetailsResult>>
         {
             private readonly DataContext _context;
@@ -33,28 +35,28 @@ namespace Application.Posts
                     return Result<PostDetailsResult>.Faliure("Post not found.");
                 }
 
+                RequestStatus requestStatus = RequestStatus.None; // Default status
+                bool hasUserRequestedThePost = false;
+
                 if (request.UserId != null)
                 {
                     // Check if a RoomateRequest exists for the given UserId and PostId
-                    var roomateRequestExists = post.RoomateRequests
-                        .Any(rr => rr.UserId == request.UserId);
+                    var roomateRequest = post.RoomateRequests
+                        .FirstOrDefault(rr => rr.UserId == request.UserId);
 
-                    if (roomateRequestExists)
+                    if (roomateRequest != null)
                     {
-                        return Result<PostDetailsResult>.Success(new PostDetailsResult
-                        {
-                            Post = post,
-                            hasUserRequestedThePost = true
-                        });
+                        hasUserRequestedThePost = true;
+                        requestStatus = roomateRequest.Status; // Set the requestStatus from the request
                     }
                 }
 
                 return Result<PostDetailsResult>.Success(new PostDetailsResult
                 {
                     Post = post,
-                    hasUserRequestedThePost = false
+                    hasUserRequestedThePost = hasUserRequestedThePost,
+                    requestStatus = requestStatus
                 });
-
             }
         }
     }
