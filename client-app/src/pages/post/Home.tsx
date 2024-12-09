@@ -108,7 +108,7 @@ export default function Post() {
         <div id="footer">
           {/*TODO DIsable the button and display a message to the user if they have already sent a request to the post */}
           <Button
-            disabled={postDetails?.data?.hasUserRequestedThePost}
+            disabled={postDetails.data?.hasUserRequestedThePost}
             onClick={onRequestClick}
             style={{
               height: "3rem",

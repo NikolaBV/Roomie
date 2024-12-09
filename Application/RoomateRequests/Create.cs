@@ -39,6 +39,10 @@ namespace Application.RoomateRequests
                     return Result<Unit>.Faliure("User not found.");
                 }
 
+                if(post.FreeSpots < 1){
+                    return Result<Unit>.Faliure("No free spots!.");
+                }
+
                 _context.RoomateRequests.Add(request.RoomateRequest);
                 var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
