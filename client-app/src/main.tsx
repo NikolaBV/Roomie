@@ -9,6 +9,7 @@ import Posts from "./pages/posts/Home";
 import Post from "./pages/post/Home";
 import SignIn from "./pages/sign-in/Home";
 import Profile from "./pages/profile/Home";
+import CreatePost from "./pages/posts/components/create-post/Home";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const AppProvider = () => {
               <Route path="/posts/:id" element={<Post />} />
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/create-post" element={<CreatePost />} />
             </Routes>
           </PageLayout>
         </BrowserRouter>

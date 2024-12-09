@@ -1,6 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import PostCard from "./components/PostCard";
 import agent from "../../api/agent";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { Tooltip } from "antd";
+import { useNavigate } from "react-router-dom";
 
 export default function Posts() {
   const postsQuery = useQuery({
@@ -9,6 +12,8 @@ export default function Posts() {
       return agent.Posts.list();
     },
   });
+
+  const navigate = useNavigate();
 
   const placeholders = Array(6).fill(null);
 
@@ -27,6 +32,28 @@ export default function Posts() {
         <div>
           <h1 style={{ fontSize: "5rem" }}>Posts</h1>
         </div>
+        <Tooltip title="Create Post">
+          <div
+            style={{
+              alignSelf: "flex-start",
+              display: "flex",
+              flexDirection: "row",
+              marginLeft: "12rem",
+              marginTop: "1rem",
+              cursor: "pointer",
+            }}
+            onClick={() => {
+              navigate("/create-post");
+            }}
+          >
+            <PlusCircleOutlined
+              style={{ fontSize: "2rem", marginRight: "1rem" }}
+            />
+            <p className="heading-text" style={{ paddingTop: "0.2rem" }}>
+              Create Post
+            </p>
+          </div>
+        </Tooltip>
         <div className="grid-container">
           {postsQuery.isLoading
             ? placeholders.map((_, index) => (
