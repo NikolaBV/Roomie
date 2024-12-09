@@ -1,13 +1,15 @@
-import { useQuery } from "@tanstack/react-query";
-import { Table } from "antd";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Popconfirm, Table, Tooltip } from "antd";
 import { decodeToken } from "../../utils/globals";
 import agent from "../../api/agent";
-import { Post } from "../../api/models";
+import { Post, RoomateRequest } from "../../api/models";
 import { useState } from "react";
 import PendingRequests from "./components/PendingRequests";
+import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
 
 export default function Profile() {
   const [selectedProjectId, setselectedProjectId] = useState("");
+  const queryCLient = useQueryClient();
 
   const token = decodeToken(localStorage.getItem("token"));
   //TODO Add the requsts pop up with the requests table
@@ -31,6 +33,16 @@ export default function Profile() {
     },
     enabled: !!token,
     retry: false,
+  });
+
+  const deleteRequest = useMutation({
+    mutationKey: ["deletePost"],
+    mutationFn: (id: string) => {
+      return agent.RoomateRequests.delete(id);
+    },
+    onSuccess: () => {
+      queryCLient.invalidateQueries({ queryKey: ["userReuests"] });
+    },
   });
 
   const postColumns = [
@@ -78,6 +90,24 @@ export default function Profile() {
       title: "Status",
       dataIndex: "status",
       key: "status",
+    },
+    {
+      title: "",
+      dataIndex: "actions",
+      key: "actions",
+      render: (_: any, record: RoomateRequest) => (
+        <Popconfirm
+          title={"Are you sure you want to delete this request?"}
+          onConfirm={() => deleteRequest.mutate(record.id)}
+        >
+          <Tooltip title="Delete Request">
+            <DeleteOutlined
+              className="force-link"
+              style={{ fontSize: "1.25rem" }}
+            />
+          </Tooltip>
+        </Popconfirm>
+      ),
     },
   ];
   return (

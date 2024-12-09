@@ -41,6 +41,8 @@ const Accounts = {
 const RoomateRequests = {
   create: (model: RoomateRequestCreateModel) =>
     requests.post<RoomateRequest>("/RoomateRequests", model),
+  delete: (id: string) => requests.delete(`/RoomateRequests/${id}`),
+
   getRequestsForPost: (postId: string) =>
     requests.get<RoomateRequest[]>(
       `/RoomateRequests/get-requests-for-post?postId=${postId}`
