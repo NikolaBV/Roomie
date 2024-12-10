@@ -4,7 +4,6 @@ import {
   LoginModel,
   Post,
   PostDetailsResult,
-  RequestStatus,
   RoomateRequest,
   RoomateRequestCreateModel,
   UpdateRequestStatusDTO,
@@ -13,6 +12,15 @@ import {
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 const responseBody = <T>(response: AxiosResponse<T>) => response.data;
+
+//Middlewere
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token");
+  if (token && config.headers) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
 
 const requests = {
   get: <T>(url: string) => axios.get<T>(url).then(responseBody),
