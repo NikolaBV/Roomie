@@ -4,6 +4,7 @@ import agent from "../../api/agent";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function Posts() {
   const postsQuery = useQuery({

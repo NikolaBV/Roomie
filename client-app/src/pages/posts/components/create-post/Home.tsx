@@ -4,8 +4,10 @@ import { useMutation } from "@tanstack/react-query";
 import agent from "../../../../api/agent";
 import dayjs from "dayjs";
 import { decodeToken } from "../../../../utils/globals";
+import { useNavigate } from "react-router-dom";
 
 export default function CreatePost() {
+  const navgiate = useNavigate();
   const createPost = useMutation({
     mutationKey: ["createPost"],
     mutationFn: (model: CreatePostModel) => {
@@ -26,6 +28,7 @@ export default function CreatePost() {
         userId: decodeToken(localStorage.getItem("token"))?.nameid,
       };
       createPost.mutate(model);
+      navgiate("/posts");
     }
   };
   return (
@@ -64,7 +67,7 @@ export default function CreatePost() {
               ></Input>
             </Form.Item>
             <Form.Item>
-              <Button htmlType="submit">Sign In</Button>
+              <Button htmlType="submit">Create Post</Button>
             </Form.Item>
           </Form>
         </div>

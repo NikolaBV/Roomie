@@ -5,7 +5,7 @@ import agent from "../../api/agent";
 import { Post, RoomateRequest } from "../../api/models";
 import { useState } from "react";
 import PendingRequests from "./components/PendingRequests";
-import { CloseOutlined, DeleteOutlined } from "@ant-design/icons";
+import { DeleteOutlined } from "@ant-design/icons";
 
 export default function Profile() {
   const [selectedProjectId, setselectedProjectId] = useState("");
