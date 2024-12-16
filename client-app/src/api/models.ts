@@ -1,5 +1,4 @@
 export type RequestStatus = "Pending" | "Rejected" | "Approved" | "None";
-export type ProfileTabsType = "myPosts" | "myRequests" | "profile";
 
 export interface Post {
   id: string;

@@ -5,6 +5,9 @@ import { useQuery } from "@tanstack/react-query";
 import agent from "../../../../api/agent";
 import { Post } from "../../../../api/models";
 import PendingRequests from "../PendingRequests";
+import ProfileTabs from "../ProfileTabs";
+import routes from "../../../../utils/PageRoutes";
+import ProfileLayout from "../{ProfileLayout";
 
 export default function MyPosts() {
   const [selectedProjectId, setSelectedProjectId] = useState("");
@@ -57,8 +60,9 @@ export default function MyPosts() {
     },
   ];
   return (
-    <>
+    <ProfileLayout>
       <div>
+        <ProfileTabs activeTab={routes.profile.myPosts} />
         <Table
           columns={postColumns}
           dataSource={userPosts.data}
@@ -74,6 +78,6 @@ export default function MyPosts() {
           }}
         />
       )}
-    </>
+    </ProfileLayout>
   );
 }

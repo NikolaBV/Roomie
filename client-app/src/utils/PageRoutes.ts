@@ -9,7 +9,7 @@ const posts = {
   createPost: "/create-post",
 };
 const authenticate = {
-  signIn: `${staticUri.signIn}/sign-in`,
+  signIn: `${staticUri.signIn}`,
 };
 const profile = {
   home: staticUri.profile,

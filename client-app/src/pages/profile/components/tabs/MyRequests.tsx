@@ -7,6 +7,8 @@ import { Popconfirm, Table, Tooltip } from "antd";
 import { DeleteOutlined } from "@ant-design/icons";
 import PendingRequests from "../PendingRequests";
 import ProfileTabs from "../ProfileTabs";
+import routes from "../../../../utils/PageRoutes";
+import ProfileLayout from "../{ProfileLayout";
 
 export default function MyRequests() {
   const token = getToken();
@@ -67,25 +69,24 @@ export default function MyRequests() {
   ];
 
   return (
-    <div>
-      <ProfileTabs activeTab={"myRequests"}></ProfileTabs>
-      <div className="heading-text" style={{ margin: "1rem 0" }}>
-        My Requests
-      </div>
-      <Table
-        columns={requestsColumns}
-        dataSource={userRequests.data}
-        rowKey="id"
-        pagination={false}
-      />
-      {selectedProjectId && (
-        <PendingRequests
-          selectedProjectId={selectedProjectId}
-          onCancel={() => {
-            setSelectedProjectId("");
-          }}
+    <ProfileLayout>
+      <div>
+        <ProfileTabs activeTab={routes.profile.myRequests}></ProfileTabs>
+        <Table
+          columns={requestsColumns}
+          dataSource={userRequests.data}
+          rowKey="id"
+          pagination={false}
         />
-      )}
-    </div>
+        {selectedProjectId && (
+          <PendingRequests
+            selectedProjectId={selectedProjectId}
+            onCancel={() => {
+              setSelectedProjectId("");
+            }}
+          />
+        )}
+      </div>
+    </ProfileLayout>
   );
 }

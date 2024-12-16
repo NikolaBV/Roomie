@@ -1,16 +1,19 @@
 import { Tabs, TabsProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import routes from "../../../utils/PageRoutes";
-import { ProfileTabsType } from "../../../api/models";
 
 interface Props {
-  activeTab: ProfileTabsType;
+  activeTab: string;
 }
 export default function ProfileTabs({ activeTab }: Props) {
   const navigate = useNavigate();
   console.log(activeTab);
 
   const menuItems: TabsProps["items"] = [
+    {
+      key: routes.profile.home,
+      label: "home",
+    },
     {
       key: routes.profile.myPosts,
       label: "My Posts",
@@ -30,6 +33,7 @@ export default function ProfileTabs({ activeTab }: Props) {
       style={{ marginTop: "2rem" }}
       items={menuItems}
       onChange={handleTabsChange}
+      defaultActiveKey={activeTab}
     ></Tabs>
   );
 }
