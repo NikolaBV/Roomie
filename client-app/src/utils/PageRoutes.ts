@@ -14,7 +14,7 @@ const authenticate = {
 const profile = {
   home: staticUri.profile,
   myPosts: `${staticUri.profile}/my-posts`,
-  myRequests: `${staticUri.profile}my-requests`,
+  myRequests: `${staticUri.profile}/my-requests`,
 };
 const routes = {
   profile,

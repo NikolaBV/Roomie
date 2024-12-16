@@ -9,3 +9,7 @@ export const decodeToken = (token: string | null): DecodedToken | undefined => {
     return decoded as DecodedToken;
   }
 };
+
+export const getToken = () => {
+  return decodeToken(localStorage.getItem("token"));
+};

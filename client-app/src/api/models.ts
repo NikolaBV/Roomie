@@ -1,4 +1,6 @@
 export type RequestStatus = "Pending" | "Rejected" | "Approved" | "None";
+export type ProfileTabsType = "myPosts" | "myRequests" | "profile";
+
 export interface Post {
   id: string;
   title: string;
@@ -7,6 +9,13 @@ export interface Post {
   freeSpots: number;
   createdAt: string;
   updatedAt: string;
+  roomateRequests: RoomateRequest[];
+}
+export interface User {
+  bio: string;
+  username: string;
+  email: string;
+  createdPosts: Post[];
   roomateRequests: RoomateRequest[];
 }
 export interface LoginModel {
@@ -56,6 +65,5 @@ export interface CreatePostModel {
   status: boolean;
   createdAt: Date;
   updatedAt: Date;
-  createdAt: Date;
   userId: string | undefined;
 }
