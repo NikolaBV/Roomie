@@ -142,7 +142,7 @@ export default function Profile() {
             </div>
             <div>
               <p className="heading-text" style={{ margin: "1rem 0 1rem 0" }}>
-                Requests waiting approval
+                My Posts
               </p>
               <Table
                 columns={postColumns}

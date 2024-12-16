@@ -5,6 +5,7 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import routes from "../../utils/PageRoutes";
 
 export default function Posts() {
   const postsQuery = useQuery({
@@ -44,7 +45,7 @@ export default function Posts() {
               cursor: "pointer",
             }}
             onClick={() => {
-              navigate("/create-post");
+              navigate(routes.posts.createPost);
             }}
           >
             <PlusCircleOutlined

@@ -10,6 +10,7 @@ import Post from "./pages/post/Home";
 import SignIn from "./pages/sign-in/Home";
 import Profile from "./pages/profile/Home";
 import CreatePost from "./pages/posts/components/create-post/Home";
+import routes from "./utils/PageRoutes";
 
 const queryClient = new QueryClient();
 
@@ -21,11 +22,11 @@ const AppProvider = () => {
           <PageLayout>
             <Routes>
               <Route path="/" element={<HomePage />} />
-              <Route path="/posts" element={<Posts />} />
-              <Route path="/posts/:id" element={<Post />} />
-              <Route path="/sign-in" element={<SignIn />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/create-post" element={<CreatePost />} />
+              <Route path={routes.posts.posts} element={<Posts />} />
+              <Route path={routes.posts.postById} element={<Post />} />
+              <Route path={routes.authenticate.signIn} element={<SignIn />} />
+              <Route path={routes.profile.home} element={<Profile />} />
+              <Route path={routes.posts.createPost} element={<CreatePost />} />
             </Routes>
           </PageLayout>
         </BrowserRouter>

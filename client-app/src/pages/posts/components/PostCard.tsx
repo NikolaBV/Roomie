@@ -1,5 +1,6 @@
 import { Card, Image } from "antd";
 import { Link } from "react-router-dom";
+import routes from "../../../utils/PageRoutes";
 
 interface Props {
   id: string;
@@ -10,7 +11,7 @@ interface Props {
 
 export default function PostCard({ id, title, description, isLoading }: Props) {
   return (
-    <Link to={`/posts/${id}`}>
+    <Link to={`${routes.posts.posts}/${id}`}>
       <Card
         loading={isLoading}
         hoverable
