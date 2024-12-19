@@ -14,5 +14,6 @@ namespace Domain
         public string UserId { get; set; }
         public User Creator { get; set; }
         public ICollection<RoomateRequest> RoomateRequests { get; set; }
+        public ICollection<ApprovedRoomate> ApprovedRoomates { get; set; }
     }
 }

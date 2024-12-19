@@ -7,5 +7,7 @@ namespace Domain
         public string Bio { get; set; }
         public ICollection<Post> CreatedPosts { get; set; }
         public ICollection<RoomateRequest> RoomateRequests { get; set; }
+        public ICollection<ApprovedRoomate> ApprovedPosts { get; set; }
+
     }
 }

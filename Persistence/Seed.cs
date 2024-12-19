@@ -32,6 +32,7 @@ namespace Persistence
             var user1 = await userManager.FindByEmailAsync("nikolavalkovb@gmail.com");
             var user2 = await userManager.FindByEmailAsync("bulgarianmapper64@gmail.com");
 
+            // Seed Posts if not existing
             if (!context.Posts.Any())
             {
                 var posts = new List<Post>
@@ -61,17 +62,6 @@ namespace Persistence
                     new Post
                     {
                         Id = Guid.NewGuid(),
-                        Title = "Furnished Room in Quiet Neighborhood",
-                        Description = "Looking for a friendly and tidy roommate to share a 2-bedroom apartment. The room is fully furnished. Rent is $600/month, including utilities and WiFi.",
-                        Status = true,
-                        FreeSpots = 1,
-                        CreatedAt = DateTime.Now.AddDays(-5),
-                        UpdatedAt = DateTime.Now.AddDays(-4),
-                        UserId = user1.Id
-                    },
-                    new Post
-                    {
-                        Id = Guid.NewGuid(),
                         Title = "Shared House with Garden",
                         Description = "Room available in a 4-bedroom house with a garden. Great for someone who enjoys a quiet, homely atmosphere. Rent is $550/month, plus utilities. Pets are welcome!",
                         Status = true,
@@ -79,17 +69,6 @@ namespace Persistence
                         CreatedAt = DateTime.Now.AddDays(-3),
                         UpdatedAt = DateTime.Now.AddDays(-2),
                         UserId = user2.Id
-                    },
-                    new Post
-                    {
-                        Id = Guid.NewGuid(),
-                        Title = "Modern Apartment with Rooftop Access",
-                        Description = "Room available in a modern apartment with access to a shared rooftop terrace. Rent is $750/month, including all utilities and high-speed internet.",
-                        Status = true,
-                        FreeSpots = 1,
-                        CreatedAt = DateTime.Now.AddDays(-1),
-                        UpdatedAt = DateTime.Now,
-                        UserId = user1.Id
                     }
                 };
 
@@ -100,6 +79,7 @@ namespace Persistence
             // Retrieve the seeded posts
             var seededPosts = context.Posts.ToList();
 
+            // Seed Roommate Requests if not existing
             if (!context.RoomateRequests.Any())
             {
                 var roomateRequests = new List<RoomateRequest>
@@ -116,37 +96,36 @@ namespace Persistence
                     {
                         Id = Guid.NewGuid(),
                         Status = RequestStatus.None,
-                        CreatedAt = DateTime.Now.AddDays(-2),
-                        UserId = user1.Id,
-                        PostId = seededPosts.First(p => p.Title == "Room Available Near University").Id
-                    },
-                    new RoomateRequest
-                    {
-                        Id = Guid.NewGuid(),
-                        Status = RequestStatus.None,
                         CreatedAt = DateTime.Now.AddDays(-1),
-                        UserId = user2.Id,
-                        PostId = seededPosts.First(p => p.Title == "Furnished Room in Quiet Neighborhood").Id
-                    },
-                    new RoomateRequest
-                    {
-                        Id = Guid.NewGuid(),
-                        Status = RequestStatus.None,
-                        CreatedAt = DateTime.Now,
                         UserId = user1.Id,
                         PostId = seededPosts.First(p => p.Title == "Shared House with Garden").Id
-                    },
-                    new RoomateRequest
-                    {
-                        Id = Guid.NewGuid(),
-                        Status = RequestStatus.None,
-                        CreatedAt = DateTime.Now,
-                        UserId = user2.Id,
-                        PostId = seededPosts.First(p => p.Title == "Modern Apartment with Rooftop Access").Id
                     }
                 };
 
                 await context.RoomateRequests.AddRangeAsync(roomateRequests);
+                await context.SaveChangesAsync();
+            }
+
+            // Seed Approved Roommates if not existing
+            if (!context.Set<ApprovedRoomate>().Any())
+            {
+                var approvedRoomates = new List<ApprovedRoomate>
+                {
+                    new ApprovedRoomate
+                    {
+                        PostId = seededPosts.First(p => p.Title == "Cozy Apartment in City Center").Id,
+                        UserId = user2.Id,
+                        ApprovedAt = DateTime.Now.AddDays(-2)
+                    },
+                    new ApprovedRoomate
+                    {
+                        PostId = seededPosts.First(p => p.Title == "Shared House with Garden").Id,
+                        UserId = user1.Id,
+                        ApprovedAt = DateTime.Now.AddDays(-1)
+                    }
+                };
+
+                await context.Set<ApprovedRoomate>().AddRangeAsync(approvedRoomates);
                 await context.SaveChangesAsync();
             }
         }
