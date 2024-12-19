@@ -15,13 +15,15 @@ namespace Persistence
                 {
                     UserName = "NikolaBV",
                     Email = "nikolavalkovb@gmail.com",
-                    Bio = "A software developer who enjoys sharing living spaces with like-minded people."
+                    Bio = "A software developer who enjoys sharing living spaces with like-minded people.",
+                    Available = true
                 };
                 var userTwo = new User
                 {
                     UserName = "bulgarianmapper",
                     Email = "bulgarianmapper64@gmail.com",
-                    Bio = "An enthusiastic traveler and student, always looking for a quiet place to study."
+                    Bio = "An enthusiastic traveler and student, always looking for a quiet place to study.",
+                    Available = false
                 };
 
                 await userManager.CreateAsync(userOne, "Pa$$w0rd");
@@ -31,6 +33,19 @@ namespace Persistence
             // Retrieve Users
             var user1 = await userManager.FindByEmailAsync("nikolavalkovb@gmail.com");
             var user2 = await userManager.FindByEmailAsync("bulgarianmapper64@gmail.com");
+
+            // Update availability if needed
+            if (user1 != null && user1.Available != true)
+            {
+                user1.Available = true;
+                await userManager.UpdateAsync(user1);
+            }
+
+            if (user2 != null && user2.Available != false)
+            {
+                user2.Available = false;
+                await userManager.UpdateAsync(user2);
+            }
 
             // Seed Posts if not existing
             if (!context.Posts.Any())
