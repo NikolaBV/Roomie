@@ -7,6 +7,7 @@ import {
   RoomateRequest,
   RoomateRequestCreateModel,
   UpdateRequestStatusDTO,
+  UserAvailabilityModel,
   UserDTO,
 } from "./models";
 
@@ -44,6 +45,8 @@ const Posts = {
 const Accounts = {
   login: (loginDTO: LoginModel) =>
     requests.post<UserDTO>("/accounts/login", loginDTO),
+  isUserAvaiable: (model: UserAvailabilityModel) =>
+    requests.post<string>(`/accounts/is-user-available`, model),
 };
 
 const RoomateRequests = {

@@ -66,3 +66,7 @@ export interface CreatePostModel {
   updatedAt: Date;
   userId: string | undefined;
 }
+
+export interface UserAvailabilityModel {
+  userId: string;
+}

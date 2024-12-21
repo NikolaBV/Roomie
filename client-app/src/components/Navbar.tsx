@@ -1,9 +1,9 @@
 import { ConfigProvider, Menu, MenuProps } from "antd";
 import { useNavigate } from "react-router-dom";
-import { Key, useState } from "react";
+import { useState } from "react";
 
 export default function Navbar() {
-  const [current, setCurrent] = useState<Key | undefined>("");
+  const [current, setCurrent] = useState("");
   const navigate = useNavigate();
 
   type MenuItem = Required<MenuProps>["items"][number];
@@ -31,7 +31,7 @@ export default function Navbar() {
     },
   ];
 
-  const onClick = (item: MenuItem) => {
+  const onClick = (item: { key: string }) => {
     if (item) {
       setCurrent(item?.key);
     }

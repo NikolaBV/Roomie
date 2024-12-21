@@ -2,7 +2,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import agent from "../../api/agent";
 import { Button, Image } from "antd";
-import { RoomateRequestCreateModel } from "../../api/models";
+import {
+  RoomateRequestCreateModel,
+  UserAvailabilityModel,
+} from "../../api/models";
 import { decodeToken } from "../../utils/globals";
 
 export default function Post() {
@@ -10,6 +13,16 @@ export default function Post() {
   const queryClient = useQueryClient();
   const token = decodeToken(localStorage.getItem("token"));
 
+  const isUserAvaiable = useQuery({
+    queryKey: ["availableUser"],
+    queryFn: (model: UserAvailabilityModel) => {
+      model = {
+        userId: token?.nameid,
+      };
+      return agent.Accounts.isUserAvaiable(model);
+    },
+    enabled: !!token,
+  });
   const postDetails = useQuery({
     queryKey: ["postsQuery", id],
     queryFn: () => agent.Posts.details(id as string, token?.nameid),
@@ -106,9 +119,11 @@ export default function Post() {
           </p>
         </div>
         <div id="footer">
-          {/*TODO DIsable the button and display a message to the user if they have already sent a request to the post */}
           <Button
-            disabled={postDetails.data?.hasUserRequestedThePost}
+            disabled={
+              postDetails.data?.hasUserRequestedThePost ||
+              !!!isUserAvaiable.data
+            }
             onClick={onRequestClick}
             style={{
               height: "3rem",
@@ -117,14 +132,17 @@ export default function Post() {
             }}
           >
             <span style={{ color: "white", fontWeight: "600" }}>
-              {postDetails?.data?.requestStatus === "None" &&
-                "Send a Roomie Request"}
-              {postDetails?.data?.requestStatus === "Pending" &&
-                "Pending Request"}
-              {postDetails?.data?.requestStatus === "Rejected" &&
-                "You have been rejected"}
-              {postDetails?.data?.requestStatus === "Approved" &&
-                "You are a Roomie!"}
+              {!!isUserAvaiable.data === false
+                ? "You are already a Roomie!"
+                : postDetails.data?.requestStatus === "None"
+                ? "Send a Roomie Request"
+                : postDetails.data?.requestStatus === "Pending"
+                ? "Pending Request"
+                : postDetails.data?.requestStatus === "Rejected"
+                ? "You have been rejected"
+                : postDetails.data?.requestStatus === "Approved"
+                ? "You are a Roomie!"
+                : ""}
             </span>
           </Button>
         </div>

@@ -30,6 +30,8 @@ namespace Application.RoomateRequests
 
                 var post = await _context.Posts.FindAsync(roomateRequest.PostId);
 
+                var user = await _context.Users.FindAsync(roomateRequest.UserId);
+
                 if (request.NewStatus.ToString() == "Approved")
                 {
                     if (post.FreeSpots < 1)
@@ -40,7 +42,7 @@ namespace Application.RoomateRequests
                     {
                         post.FreeSpots = post.FreeSpots - 1;
                         //TODO Add the user and the post to the Approvedroomates table as an entry
-                        //Make the user who sent the request Available = false
+                        user.Available = false;
                     }
                 }
 

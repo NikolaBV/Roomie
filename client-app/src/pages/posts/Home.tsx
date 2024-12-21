@@ -4,7 +4,6 @@ import agent from "../../api/agent";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Tooltip } from "antd";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import routes from "../../utils/PageRoutes";
 
 export default function Posts() {
@@ -27,7 +26,7 @@ export default function Posts() {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          height: "100vh",
+          height: "100%",
           flexDirection: "column",
         }}
       >

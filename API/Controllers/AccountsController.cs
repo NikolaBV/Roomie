@@ -67,7 +67,19 @@ namespace API.Controllers
                 };
             }
             return BadRequest("Problem registering user");
-
+        }
+        [HttpPost("is-user-available")]
+        public async Task<IActionResult> IsUserAvaiable([FromBody] UserAvailabilityRequest request)
+        {
+            var user = await _userManager.FindByIdAsync(request.UserId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+            else
+            {
+                return Ok(user.Available);
+            }
         }
     }
 }
