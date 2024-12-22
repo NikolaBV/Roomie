@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Core;
+using Domain;
 using Domain.Enums;
 using MediatR;
 using Persistence;
@@ -23,38 +24,39 @@ namespace Application.RoomateRequests
             {
                 _context = context;
             }
+
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var roomateRequest = await _context.RoomateRequests.FindAsync(request.RequestId);
-                roomateRequest.Status = request.NewStatus;
+                if (roomateRequest == null) return Result<Unit>.Faliure("Roommate request not found.");
 
                 var post = await _context.Posts.FindAsync(roomateRequest.PostId);
+                if (post == null) return Result<Unit>.Faliure("Post not found.");
 
                 var user = await _context.Users.FindAsync(roomateRequest.UserId);
+                if (user == null) return Result<Unit>.Faliure("User not found.");
 
-                if (request.NewStatus.ToString() == "Approved")
+                roomateRequest.Status = request.NewStatus;
+
+                if (request.NewStatus == RequestStatus.Approved)
                 {
                     if (post.FreeSpots < 1)
                     {
                         return Result<Unit>.Faliure("Not enough free spots!");
                     }
-                    else
-                    {
-                        post.FreeSpots = post.FreeSpots - 1;
-                        //TODO Add the user and the post to the Approvedroomates table as an entry
-                        user.Available = false;
-                    }
-                }
 
-                /*
-                1. Get the post the request is about
-                2. Check the incoming status sent by the user via the request parameters
-                3. If the new status is success:
-                    3.1. Check of there are free spots, if there are not:
-                            Return failure with message not enough spots on post
-                         If there are free spots
-                            decreas the freeSpots of the post by 1       
-                */
+                    post.FreeSpots -= 1;
+                    user.Available = false;
+
+                    var approvedRoomate = new ApprovedRoomate
+                    {
+                        PostId = roomateRequest.PostId,
+                        UserId = roomateRequest.UserId,
+                        ApprovedAt = DateTime.UtcNow
+                    };
+
+                    _context.ApprovedRoomates.Add(approvedRoomate);
+                }
 
                 await _context.SaveChangesAsync(cancellationToken);
                 return Result<Unit>.Success(Unit.Value);
