@@ -7,6 +7,7 @@ import {
   UserAvailabilityModel,
 } from "../../api/models";
 import { decodeToken } from "../../utils/globals";
+import { getPostButtonText, isPostButtonDisabled } from "./utils/utility";
 
 export default function Post() {
   const { id } = useParams();
@@ -120,10 +121,10 @@ export default function Post() {
         </div>
         <div id="footer">
           <Button
-            disabled={
-              postDetails.data?.hasUserRequestedThePost ||
-              !!!isUserAvaiable.data
-            }
+            disabled={isPostButtonDisabled(
+              postDetails.data?.hasUserRequestedThePost,
+              isUserAvaiable.data
+            )}
             onClick={onRequestClick}
             style={{
               height: "3rem",
@@ -132,17 +133,10 @@ export default function Post() {
             }}
           >
             <span style={{ color: "white", fontWeight: "600" }}>
-              {!!isUserAvaiable.data === false
-                ? "You are already a Roomie!"
-                : postDetails.data?.requestStatus === "None"
-                ? "Send a Roomie Request"
-                : postDetails.data?.requestStatus === "Pending"
-                ? "Pending Request"
-                : postDetails.data?.requestStatus === "Rejected"
-                ? "You have been rejected"
-                : postDetails.data?.requestStatus === "Approved"
-                ? "You are a Roomie!"
-                : ""}
+              {getPostButtonText(
+                isUserAvaiable.data,
+                postDetails.data?.requestStatus
+              )}
             </span>
           </Button>
         </div>

@@ -122,6 +122,7 @@ namespace Persistence
             }
 
             // Seed Approved Roommates if not existing
+            /*
             if (!context.Set<ApprovedRoomate>().Any())
             {
                 var approvedRoomates = new List<ApprovedRoomate>
@@ -143,6 +144,7 @@ namespace Persistence
                 await context.Set<ApprovedRoomate>().AddRangeAsync(approvedRoomates);
                 await context.SaveChangesAsync();
             }
+            */
         }
     }
 }
