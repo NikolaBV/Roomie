@@ -1,4 +1,5 @@
-import { Card, Image } from "antd";
+import Card from "antd/es/card";
+import Image from "antd/es/image";
 import { Link } from "react-router-dom";
 import routes from "../../../utils/PageRoutes";
 

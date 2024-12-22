@@ -29,13 +29,14 @@ export default function SignIn() {
 
   return (
     <>
-      <div className="container" style={{ height: "100vh" }}>
+      <div>
         <div
           style={{
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
+            minHeight: "100vh",
           }}
         >
           <div

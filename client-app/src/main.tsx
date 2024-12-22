@@ -11,9 +11,9 @@ import SignIn from "./pages/sign-in/Home";
 import Profile from "./pages/profile/Home";
 import CreatePost from "./pages/posts/components/create-post/Home";
 import routes from "./utils/PageRoutes";
-import MyRequests from "./pages/profile/components/tabs/MyRequests";
-import MyPosts from "./pages/profile/components/tabs/MyPosts";
+import MyPosts from "./pages/profile/components/profile-tabs/tabs/my-posts/MyPosts";
 import MyRoomie from "./pages/my-roomie/Home";
+import MyRequests from "./pages/profile/components/profile-tabs/tabs/my-requests/MyRequests";
 
 const queryClient = new QueryClient();
 
