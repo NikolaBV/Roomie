@@ -13,6 +13,7 @@ import CreatePost from "./pages/posts/components/create-post/Home";
 import routes from "./utils/PageRoutes";
 import MyRequests from "./pages/profile/components/tabs/MyRequests";
 import MyPosts from "./pages/profile/components/tabs/MyPosts";
+import MyRoomie from "./pages/my-roomie/Home";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const AppProvider = () => {
               />
               <Route path={routes.profile.myPosts} element={<MyPosts />} />
               <Route path={routes.posts.createPost} element={<CreatePost />} />
+              <Route path={routes.myRoomie.home} element={<MyRoomie />} />
             </Routes>
           </PageLayout>
         </BrowserRouter>

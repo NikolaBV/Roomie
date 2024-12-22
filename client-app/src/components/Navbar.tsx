@@ -1,6 +1,7 @@
 import { ConfigProvider, Menu, MenuProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import routes from "../utils/PageRoutes";
 
 export default function Navbar() {
   const [current, setCurrent] = useState("");
@@ -12,12 +13,17 @@ export default function Navbar() {
     {
       key: "1",
       label: <p className="heading-text">Home</p>,
-      onClick: () => navigate("/"),
+      onClick: () => navigate(routes.staticUri.root),
     },
     {
       key: "2",
       label: <p className="heading-text">Posts</p>,
-      onClick: () => navigate("/posts"),
+      onClick: () => navigate(routes.posts.posts),
+    },
+    {
+      key: "5",
+      label: <p className="heading-text">My Roomie</p>,
+      onClick: () => navigate(routes.myRoomie.home),
     },
     {
       key: "4",
@@ -27,7 +33,11 @@ export default function Navbar() {
         </p>
       ),
       onClick: () =>
-        navigate(localStorage.getItem("token") ? "/profile" : "/sign-in"),
+        navigate(
+          localStorage.getItem("token")
+            ? routes.profile.home
+            : routes.authenticate.signIn
+        ),
     },
   ];
 
