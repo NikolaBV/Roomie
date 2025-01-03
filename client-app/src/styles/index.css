@@ -292,6 +292,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 100%;
   height: 100%;
 }
 .column {
@@ -362,7 +363,7 @@ body {
 
 .grid-container {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: repeat(2, 1fr);
 }
 
 .grid-item {
@@ -410,3 +411,8 @@ body {
   margin-bottom: 2rem;
 }
 /*<----------->*/
+
+.side-bar-menu {
+  position: sticky;
+  border: none !important;
+}
