@@ -368,6 +368,8 @@ body {
 .grid-2-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  row-gap: 1rem; /* Less vertical space between rows */
+  column-gap: 1.5rem; /* More horizontal space between columns */
 }
 
 .grid-item {

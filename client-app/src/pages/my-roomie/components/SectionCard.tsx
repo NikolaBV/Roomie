@@ -11,15 +11,31 @@ export default function SectionCard({ tab, description }: Props) {
   return (
     <div
       style={{
-        backgroundColor: "#ddd",
-        height: "15rem",
-        width: "25rem",
-        margin: "1rem",
+        backgroundColor: "white",
+        height: "50%",
+        width: "30rem",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        padding: "1rem",
       }}
     >
-      <p className="heading-text">{tab}</p>
-      <p>{description}</p>
-      <Button onClick={() => navigate(tab.toLowerCase())}>View Details</Button>
+      <div>
+        <p className="heading-text mb-1" style={{ fontSize: "2rem" }}>
+          {tab}
+        </p>
+        <p>{description}</p>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "flex-end",
+        }}
+      >
+        <Button onClick={() => navigate(tab.toLowerCase())}>
+          View Details
+        </Button>
+      </div>
     </div>
   );
 }

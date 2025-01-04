@@ -1,7 +1,6 @@
 import { Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
 import SectionCard from "./components/SectionCard";
-import { MyRoomieTabs } from "../../api/models";
 import PageSider from "./components/PageSider";
 
 export default function MyRoomie() {
