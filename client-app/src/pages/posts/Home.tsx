@@ -41,7 +41,7 @@ export default function Posts() {
           </p>
         </div>
       </Tooltip>
-      <div className="grid-container">
+      <div className="grid-3-row">
         <Suspense fallback={<div>Loading posts...</div>}>
           {postsQuery?.data?.map((post) => (
             <PostCard

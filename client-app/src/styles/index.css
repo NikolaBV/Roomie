@@ -351,7 +351,7 @@ body {
 }
 
 .footer-items h3 {
-  color: var(--text-color);
+  color: var(--light-color);
   font-weight: 400;
   font-size: 1rem;
   cursor: pointer;
@@ -361,7 +361,11 @@ body {
   color: var(--link-color-hover);
 }
 
-.grid-container {
+.grid-3-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-2-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }

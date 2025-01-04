@@ -1,33 +1,16 @@
-import { Layout, Menu, MenuProps } from "antd";
+import { Layout } from "antd";
 import { Content } from "antd/es/layout/layout";
-import Sider from "antd/es/layout/Sider";
+import SectionCard from "./components/SectionCard";
+import { MyRoomieTabs } from "../../api/models";
+import PageSider from "./components/PageSider";
 
 export default function MyRoomie() {
-  const items: MenuProps["items"] = [
-    {
-      key: "General",
-      label: "General",
-    },
-    {
-      key: "Property",
-      label: "Property",
-    },
-    {
-      key: "Roomies",
-      label: "Roomies",
-    },
-    {
-      key: "Rent & Utilities",
-      label: "Rent",
-    },
-  ];
   return (
-    <div>
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
       <Layout hasSider>
-        <Sider theme="light">
-          <div className="demo-logo-vertical" />
-          <Menu theme="light" items={items} className="side-bar-menu" />
-        </Sider>
+        <PageSider activeTab={"General"}></PageSider>
         <Layout>
           <Content
             style={{
@@ -36,39 +19,17 @@ export default function MyRoomie() {
               alignContent: "center",
             }}
           >
-            <div className="grid-container">
-              <div
-                style={{
-                  backgroundColor: "red",
-                  height: "15rem",
-                  width: "25rem",
-                  margin: "1rem",
-                }}
-              ></div>
-              <div
-                style={{
-                  backgroundColor: "red",
-                  height: "15rem",
-                  width: "25rem",
-                  margin: "1rem",
-                }}
-              ></div>
-              <div
-                style={{
-                  backgroundColor: "red",
-                  height: "15rem",
-                  width: "25rem",
-                  margin: "1rem",
-                }}
-              ></div>
-              <div
-                style={{
-                  backgroundColor: "red",
-                  height: "15rem",
-                  width: "25rem",
-                  margin: "1rem",
-                }}
-              ></div>
+            <div className="grid-2-row ">
+              <SectionCard
+                tab="Property"
+                description="Get info about the property"
+              />
+              <SectionCard tab="Roomies" description="Check on your Roomies!" />
+              <SectionCard tab="Rent" description="Pay your share" />
+              <SectionCard
+                tab="Payments"
+                description="Track payments history"
+              />
             </div>
           </Content>
         </Layout>

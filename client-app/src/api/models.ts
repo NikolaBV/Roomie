@@ -1,4 +1,10 @@
 export type RequestStatus = "Pending" | "Rejected" | "Approved" | "None";
+export type MyRoomieTabs =
+  | "General"
+  | "Property"
+  | "Roomies"
+  | "Rent"
+  | "Payments";
 
 export interface Post {
   id: string;
