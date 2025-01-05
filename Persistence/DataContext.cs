@@ -25,6 +25,11 @@ namespace Persistence
                 .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Entity<Post>()
+            .HasOne(p => p.Property)
+            .WithOne(prop => prop.Post)
+            .HasForeignKey<Property>(pr => pr.PostId);
+
             // One-to-many: Users to Roommate Requests
             builder.Entity<RoomateRequest>()
                 .HasOne(r => r.User)
@@ -52,7 +57,7 @@ namespace Persistence
             builder.Entity<ApprovedRoomate>()
                 .HasOne(ar => ar.User)
                 .WithMany(u => u.ApprovedPosts)
-                .HasForeignKey(pr => pr.UserId)
+                .HasForeignKey(ar => ar.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // Optional Table Naming and Indexing

@@ -8,7 +8,6 @@ namespace Persistence
     {
         public static async Task SeedData(DataContext context, UserManager<User> userManager)
         {
-            // Seed Users if not existing
             if (!userManager.Users.Any())
             {
                 var userOne = new User
@@ -30,24 +29,9 @@ namespace Persistence
                 await userManager.CreateAsync(userTwo, "Pa$$w0rdUserTwo");
             }
 
-            // Retrieve Users
             var user1 = await userManager.FindByEmailAsync("nikolavalkovb@gmail.com");
             var user2 = await userManager.FindByEmailAsync("bulgarianmapper64@gmail.com");
 
-            // Update availability if needed
-            if (user1 != null && user1.Available != true)
-            {
-                user1.Available = true;
-                await userManager.UpdateAsync(user1);
-            }
-
-            if (user2 != null && user2.Available != false)
-            {
-                user2.Available = false;
-                await userManager.UpdateAsync(user2);
-            }
-
-            // Seed Posts if not existing
             if (!context.Posts.Any())
             {
                 var posts = new List<Post>
@@ -91,60 +75,59 @@ namespace Persistence
                 await context.SaveChangesAsync();
             }
 
-            // Retrieve the seeded posts
             var seededPosts = context.Posts.ToList();
 
-            // Seed Roommate Requests if not existing
-            if (!context.RoomateRequests.Any())
+            if (!context.Set<Property>().Any())
             {
-                var roomateRequests = new List<RoomateRequest>
+                var properties = new List<Property>
                 {
-                    new RoomateRequest
+                    new Property
                     {
                         Id = Guid.NewGuid(),
-                        Status = RequestStatus.None,
-                        CreatedAt = DateTime.Now.AddDays(-3),
-                        UserId = user2.Id,
+                        Address = "123 Main Street, City Center",
+                        ApartmentType = ApartmentType.TwoBedroom,
+                        NumberOfRooms = 2,
+                        Furnished = true,
+                        Rent = 1400,
+                        AdditionalNotes = "Close to public transport and fully furnished.",
                         PostId = seededPosts.First(p => p.Title == "Cozy Apartment in City Center").Id
                     },
-                    new RoomateRequest
+                    new Property
                     {
                         Id = Guid.NewGuid(),
-                        Status = RequestStatus.None,
-                        CreatedAt = DateTime.Now.AddDays(-1),
-                        UserId = user1.Id,
+                        Address = "456 University Avenue",
+                        ApartmentType = ApartmentType.ThreeBedroom,
+                        NumberOfRooms = 3,
+                        Furnished = false,
+                        Rent = 1500,
+                        AdditionalNotes = "Ideal for students, 10 minutes from campus.",
+                        PostId = seededPosts.First(p => p.Title == "Room Available Near University").Id
+                    },
+                    new Property
+                    {
+                        Id = Guid.NewGuid(),
+                        Address = "789 Garden Lane",
+                        ApartmentType = ApartmentType.ThreeBedroom,
+                        NumberOfRooms = 4,
+                        Furnished = true,
+                        Rent = 2200,
+                        AdditionalNotes = "Spacious garden, pets allowed.",
                         PostId = seededPosts.First(p => p.Title == "Shared House with Garden").Id
                     }
                 };
 
-                await context.RoomateRequests.AddRangeAsync(roomateRequests);
+                await context.Set<Property>().AddRangeAsync(properties);
                 await context.SaveChangesAsync();
-            }
 
-            // Seed Approved Roommates if not existing
-            /*
-            if (!context.Set<ApprovedRoomate>().Any())
-            {
-                var approvedRoomates = new List<ApprovedRoomate>
+                // Update Posts with their PropertyId
+                foreach (var post in seededPosts)
                 {
-                    new ApprovedRoomate
-                    {
-                        PostId = seededPosts.First(p => p.Title == "Cozy Apartment in City Center").Id,
-                        UserId = user2.Id,
-                        ApprovedAt = DateTime.Now.AddDays(-2)
-                    },
-                    new ApprovedRoomate
-                    {
-                        PostId = seededPosts.First(p => p.Title == "Shared House with Garden").Id,
-                        UserId = user1.Id,
-                        ApprovedAt = DateTime.Now.AddDays(-1)
-                    }
-                };
+                    post.PropertyId = properties.First(p => p.PostId == post.Id).Id;
+                }
 
-                await context.Set<ApprovedRoomate>().AddRangeAsync(approvedRoomates);
+                context.Posts.UpdateRange(seededPosts);
                 await context.SaveChangesAsync();
             }
-            */
         }
     }
 }

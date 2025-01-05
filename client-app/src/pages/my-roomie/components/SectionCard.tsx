@@ -12,7 +12,7 @@ export default function SectionCard({ tab, description }: Props) {
     <div
       style={{
         backgroundColor: "white",
-        height: "50%",
+        height: "15rem",
         width: "30rem",
         display: "flex",
         flexDirection: "column",

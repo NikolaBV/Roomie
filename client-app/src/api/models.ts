@@ -6,6 +6,13 @@ export type MyRoomieTabs =
   | "Rent"
   | "Payments";
 
+export type ApartmentType =
+  | "Studio"
+  | "OneBedroom"
+  | "TwoBedroom"
+  | "ThreeBedroom"
+  | "Other";
+
 export interface Post {
   id: string;
   title: string;
@@ -14,6 +21,8 @@ export interface Post {
   freeSpots: number;
   createdAt: string;
   updatedAt: string;
+  property: Property;
+  propertyId: string;
   roomateRequests: RoomateRequest[];
 }
 export interface User {
@@ -75,4 +84,16 @@ export interface CreatePostModel {
 
 export interface UserAvailabilityModel {
   userId: string;
+}
+
+export interface Property {
+  id: string;
+  address: string;
+  apartmentType: ApartmentType;
+  numberOfRooms: number;
+  furnished: boolean;
+  rent: number;
+  additionalNotes: string;
+  postId: string;
+  post: Post;
 }
