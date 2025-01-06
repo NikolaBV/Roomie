@@ -13,6 +13,8 @@ namespace Persistence
         public DbSet<Post> Posts { get; set; }
         public DbSet<RoomateRequest> RoomateRequests { get; set; }
         public DbSet<ApprovedRoomate> ApprovedRoomates { get; set; }
+        public DbSet<Property> Properties { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

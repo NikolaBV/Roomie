@@ -11,8 +11,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241219160908_AddedUserAvvailabilityStatus")]
-    partial class AddedUserAvvailabilityStatus
+    [Migration("20250106124542_AddedPropertiesTable")]
+    partial class AddedPropertiesTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -55,6 +55,9 @@ namespace Persistence.Migrations
                     b.Property<int>("FreeSpots")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid>("PropertyId")
+                        .HasColumnType("TEXT");
+
                     b.Property<bool>("Status")
                         .HasColumnType("INTEGER");
 
@@ -72,6 +75,41 @@ namespace Persistence.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("Domain.Property", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("AdditionalNotes")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("ApartmentType")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("Furnished")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("NumberOfRooms")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<decimal>("Rent")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId")
+                        .IsUnique();
+
+                    b.ToTable("Properties");
                 });
 
             modelBuilder.Entity("Domain.RoomateRequest", b =>
@@ -328,6 +366,17 @@ namespace Persistence.Migrations
                     b.Navigation("Creator");
                 });
 
+            modelBuilder.Entity("Domain.Property", b =>
+                {
+                    b.HasOne("Domain.Post", "Post")
+                        .WithOne("Property")
+                        .HasForeignKey("Domain.Property", "PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
             modelBuilder.Entity("Domain.RoomateRequest", b =>
                 {
                     b.HasOne("Domain.Post", "Post")
@@ -400,6 +449,8 @@ namespace Persistence.Migrations
             modelBuilder.Entity("Domain.Post", b =>
                 {
                     b.Navigation("ApprovedRoomates");
+
+                    b.Navigation("Property");
 
                     b.Navigation("RoomateRequests");
                 });

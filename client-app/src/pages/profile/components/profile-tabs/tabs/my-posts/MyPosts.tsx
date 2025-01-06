@@ -19,7 +19,7 @@ export default function MyPosts() {
     queryKey: ["usersPosts"],
     queryFn: () => {
       if (token) {
-        return agent.Posts.getPostByUser(token?.nameid);
+        return agent.Posts.getPostsByUser(token?.nameid);
       }
     },
     enabled: !!token,

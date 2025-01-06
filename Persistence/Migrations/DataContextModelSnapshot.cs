@@ -106,7 +106,7 @@ namespace Persistence.Migrations
                     b.HasIndex("PostId")
                         .IsUnique();
 
-                    b.ToTable("Property");
+                    b.ToTable("Properties");
                 });
 
             modelBuilder.Entity("Domain.RoomateRequest", b =>
