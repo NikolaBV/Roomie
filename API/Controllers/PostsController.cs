@@ -41,17 +41,12 @@ namespace API.Controllers
             return HandleResult(await Mediator.Send(new Delete.Command { Id = id }, cancellationToken));
         }
         [Authorize]
-        [HttpGet("get-post-by-user")]
+        [HttpGet("posts-by-user")]
         public async Task<IActionResult> GetPostsByUser([FromQuery] string userId, CancellationToken cancellationToken)
         {
             return HandleResult(await Mediator.Send(new PostsByUser.Query { UserId = userId }, cancellationToken));
         }
-        [Authorize]
-        [HttpGet("post-by-user")]
-        public async Task<IActionResult> GetPostByUser([FromQuery] string userId, CancellationToken cancellationToken)
-        {
-            return HandleResult(await Mediator.Send(new PostsByUser.Query { UserId = userId }, cancellationToken));
-        }
+
 
     }
 

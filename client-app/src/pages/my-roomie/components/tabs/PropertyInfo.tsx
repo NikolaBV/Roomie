@@ -14,24 +14,29 @@ export default function PropertyInfo() {
     queryKey: ["usersPosts"],
     queryFn: () => {
       if (token) {
-        return agent.Posts.getPostsByUser(token?.nameid);
+        return agent.ApprovedRoomates.getPostIdByUser(token?.nameid);
       }
     },
     enabled: !!token,
     retry: false,
   });
+
+  console.log(userPosts.data);
   
-  // const propertyDetails = useQuery({
-  //   queryKey: ["propertyDetails"],
-  //   queryFn: () => {
-  //     return agent.Properties.getPropertyByPostId("A6F4B9AB-F559-44DC-A16D-CF3859410708");
-  //   },
-  //   retry: false,
-  //   refetchOnWindowFocus: false,
+  const propertyDetails = useQuery({
+    queryKey: ["propertyDetails"],
+    queryFn: () => {
+      if(userPosts.data){
+      return agent.Properties.getPropertyByPostId(userPosts.data);
 
-  // });
+      }
+    },
+    retry: false,
+    refetchOnWindowFocus: false,
+    enabled: !!userPosts.data 
 
-  // console.log(propertyDetails.data);
+  });
+
   return (
     <div
       style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}

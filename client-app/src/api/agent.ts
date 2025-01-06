@@ -40,7 +40,7 @@ const Posts = {
   },
   create: (model: CreatePostModel) => requests.post("/posts", model),
   getPostsByUser: (userId: string) =>
-    requests.get<Post[]>(`/posts/get-post-by-user?userId=${userId}`),
+    requests.get<Post[]>(`/posts/posts-by-user?userId=${userId}`),
 };
 
 const Accounts = {
@@ -67,6 +67,11 @@ const RoomateRequests = {
     requests.put(`/RoomateRequests/update-status`, model),
 };
 
+const ApprovedRoomates = {
+   getPostIdByUser: (userId: string) =>
+    requests.get<string>(`/approvedRoomates/post-by-user?userId=${userId}`),
+}
+
 const Properties = {
   getPropertyByPostId: (postId: string) => 
     requests.get<Property>(`/properties/get-property?postId=${postId}`)
@@ -75,7 +80,8 @@ const agent = {
   Posts,
   Accounts,
   RoomateRequests,
-  Properties
+  Properties,
+  ApprovedRoomates
 };
 
 export default agent;
