@@ -23,7 +23,7 @@ namespace Application.RoomateRequests
                 var roomateRequests = _context.RoomateRequests.Where(rr => rr.UserId == request.UserId).ToList();
                 if (roomateRequests == null)
                 {
-                    return Result<List<RoomateRequest>>.Faliure("No requests found");
+                    return Result<List<RoomateRequest>>.Failure("No requests found");
                 }
                 return Result<List<RoomateRequest>>.Success(roomateRequests);
             }

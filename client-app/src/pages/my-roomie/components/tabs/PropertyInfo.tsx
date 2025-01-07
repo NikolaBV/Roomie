@@ -6,8 +6,7 @@ import agent from "../../../../api/agent";
 import { getToken } from "../../../../utils/globals";
 
 export default function PropertyInfo() {
-
-   const token = getToken();
+  const token = getToken();
 
   // Fetch user posts
   const userPosts = useQuery({
@@ -22,19 +21,17 @@ export default function PropertyInfo() {
   });
 
   console.log(userPosts.data);
-  
+
   const propertyDetails = useQuery({
     queryKey: ["propertyDetails"],
     queryFn: () => {
-      if(userPosts.data){
-      return agent.Properties.getPropertyByPostId(userPosts.data);
-
+      if (userPosts.data) {
+        return agent.Properties.getPropertyByPostId(userPosts.data);
       }
     },
     retry: false,
     refetchOnWindowFocus: false,
-    enabled: !!userPosts.data 
-
+    enabled: !!userPosts.data,
   });
 
   return (
@@ -45,7 +42,7 @@ export default function PropertyInfo() {
         <PageSider activeTab={"Property"}></PageSider>
         <Layout>
           <Content>
-            <p>content</p>
+            <p>Content</p>
           </Content>
         </Layout>
       </Layout>

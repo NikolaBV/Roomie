@@ -70,6 +70,8 @@ const RoomateRequests = {
 const ApprovedRoomates = {
    getPostIdByUser: (userId: string) =>
     requests.get<string>(`/approvedRoomates/post-by-user?userId=${userId}`),
+   isUserApproved:(userId: string) =>
+    requests.get<boolean>(`/approvedRoomates/is-user-approved?userId=${userId}`)
 }
 
 const Properties = {

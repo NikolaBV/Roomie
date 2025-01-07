@@ -27,7 +27,7 @@ namespace Application.Properties
 
                 if (property == null)
                 {
-                    return Result<Property>.Faliure("Not found");
+                    return Result<Property>.Failure("Not found");
                 }
                 return Result<Property>.Success(property);
             }

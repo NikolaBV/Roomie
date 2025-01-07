@@ -28,7 +28,7 @@ namespace Application.RoomateRequests
 
                 if (post == null)
                 {
-                    return Result<Unit>.Faliure("Post not found.");
+                    return Result<Unit>.Failure("Post not found.");
                 }
 
                 var userExists = await _context.Users
@@ -36,18 +36,18 @@ namespace Application.RoomateRequests
 
                 if (!userExists)
                 {
-                    return Result<Unit>.Faliure("User not found.");
+                    return Result<Unit>.Failure("User not found.");
                 }
 
                 if(post.FreeSpots < 1){
-                    return Result<Unit>.Faliure("No free spots!.");
+                    return Result<Unit>.Failure("No free spots!.");
                 }
 
                 _context.RoomateRequests.Add(request.RoomateRequest);
                 var result = await _context.SaveChangesAsync(cancellationToken) > 0;
 
                 if (!result)
-                    return Result<Unit>.Faliure("Failed to create a request");
+                    return Result<Unit>.Failure("Failed to create a request");
 
                 return Result<Unit>.Success(Unit.Value);
             }

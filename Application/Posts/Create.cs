@@ -31,7 +31,7 @@ namespace Application.Posts
                 _context.Posts.Add(request.Post);
                 var result = await _context.SaveChangesAsync(cancellationToken) > 0;
                 if (!result)
-                    return Result<Unit>.Faliure("Failed to create an Post");
+                    return Result<Unit>.Failure("Failed to create an Post");
                 return Result<Unit>.Success(Unit.Value);
 
             }

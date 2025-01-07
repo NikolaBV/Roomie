@@ -31,7 +31,7 @@ namespace Application.Posts
 
                 if (!result)
                 {
-                    return Result<Unit>.Faliure("Failed to delete the order");
+                    return Result<Unit>.Failure("Failed to delete the order");
                 }
                 return Result<Unit>.Success(Unit.Value);
             }

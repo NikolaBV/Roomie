@@ -22,7 +22,7 @@ namespace Application.RoomateRequests
             {
                 var roomateRequest = await _context.RoomateRequests.FindAsync(request.Id);
                 if(roomateRequest == null){
-                    return Result<Unit>.Faliure("No such request found");
+                    return Result<Unit>.Failure("No such request found");
                 }
                  _context.RoomateRequests.Remove(roomateRequest);
                  await _context.SaveChangesAsync();

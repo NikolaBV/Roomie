@@ -28,13 +28,13 @@ namespace Application.RoomateRequests
             public async Task<Result<Unit>> Handle(Command request, CancellationToken cancellationToken)
             {
                 var roomateRequest = await _context.RoomateRequests.FindAsync(request.RequestId);
-                if (roomateRequest == null) return Result<Unit>.Faliure("Roommate request not found.");
+                if (roomateRequest == null) return Result<Unit>.Failure("Roommate request not found.");
 
                 var post = await _context.Posts.FindAsync(roomateRequest.PostId);
-                if (post == null) return Result<Unit>.Faliure("Post not found.");
+                if (post == null) return Result<Unit>.Failure("Post not found.");
 
                 var user = await _context.Users.FindAsync(roomateRequest.UserId);
-                if (user == null) return Result<Unit>.Faliure("User not found.");
+                if (user == null) return Result<Unit>.Failure("User not found.");
 
                 roomateRequest.Status = request.NewStatus;
 
@@ -42,7 +42,7 @@ namespace Application.RoomateRequests
                 {
                     if (post.FreeSpots < 1)
                     {
-                        return Result<Unit>.Faliure("Not enough free spots!");
+                        return Result<Unit>.Failure("Not enough free spots!");
                     }
 
                     post.FreeSpots -= 1;

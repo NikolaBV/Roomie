@@ -32,7 +32,7 @@ namespace Application.Posts
 
                 if (post == null)
                 {
-                    return Result<PostDetailsResult>.Faliure("Post not found.");
+                    return Result<PostDetailsResult>.Failure("Post not found.");
                 }
 
                 RequestStatus requestStatus = RequestStatus.None; // Default status

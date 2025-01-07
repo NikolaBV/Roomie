@@ -25,7 +25,7 @@ namespace Application.ApprovedRequests
 
                 if (approvedRoommate == null)
                 {
-                    return Result<Guid>.Faliure("No approved roommate found for the given UserId.");
+                    return Result<Guid>.Failure("No approved roommate found for the given UserId.");
                 }
 
                 var postId = approvedRoommate.PostId;
