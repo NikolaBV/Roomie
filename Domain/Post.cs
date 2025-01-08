@@ -1,4 +1,5 @@
 using Domain.Enums;
+using System.Text.Json.Serialization;
 
 namespace Domain
 {
@@ -12,11 +13,17 @@ namespace Domain
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public string UserId { get; set; }
+
+        [JsonIgnore]
         public User Creator { get; set; }
 
         public Property Property { get; set; }
         public Guid PropertyId { get; set; }
+
+        [JsonIgnore]
         public ICollection<RoomateRequest> RoomateRequests { get; set; }
+
+        [JsonIgnore]
         public ICollection<ApprovedRoomate> ApprovedRoomates { get; set; }
     }
 }

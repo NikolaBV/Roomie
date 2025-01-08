@@ -22,7 +22,7 @@ namespace Persistence
                     UserName = "bulgarianmapper",
                     Email = "bulgarianmapper64@gmail.com",
                     Bio = "An enthusiastic traveler and student, always looking for a quiet place to study.",
-                    Available = false
+                    Available = true
                 };
 
                 await userManager.CreateAsync(userOne, "Pa$$w0rd");
@@ -42,7 +42,7 @@ namespace Persistence
                         Title = "Cozy Apartment in City Center",
                         Description = "Looking for a roommate to share a 2-bedroom apartment in the heart of the city. Fully furnished, close to public transport, and includes utilities. Rent is $700/month per person.",
                         Status = true,
-                        FreeSpots = 1,
+                        FreeSpots = 5,
                         CreatedAt = DateTime.Now.AddDays(-10),
                         UpdatedAt = DateTime.Now.AddDays(-9),
                         UserId = user1.Id

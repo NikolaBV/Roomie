@@ -8,6 +8,7 @@ import {
   RoomateRequest,
   RoomateRequestCreateModel,
   UpdateRequestStatusDTO,
+  User,
   UserAvailabilityModel,
   UserDTO,
 } from "./models";
@@ -68,22 +69,28 @@ const RoomateRequests = {
 };
 
 const ApprovedRoomates = {
-   getPostIdByUser: (userId: string) =>
+  getPostIdByUser: (userId: string) =>
     requests.get<string>(`/approvedRoomates/post-by-user?userId=${userId}`),
-   isUserApproved:(userId: string) =>
-    requests.get<boolean>(`/approvedRoomates/is-user-approved?userId=${userId}`)
-}
+  isUserApproved: (userId: string) =>
+    requests.get<boolean>(
+      `/approvedRoomates/is-user-approved?userId=${userId}`
+    ),
+  usersForPost: (postId: string) =>
+    requests.get<User[]>(
+      `/approvedRoomates/approved-users-for-post?postId=${postId}`
+    ),
+};
 
 const Properties = {
-  getPropertyByPostId: (postId: string) => 
-    requests.get<Property>(`/properties/get-property?postId=${postId}`)
+  getPropertyByPostId: (postId: string) =>
+    requests.get<Property>(`/properties/get-property?postId=${postId}`),
 };
 const agent = {
   Posts,
   Accounts,
   RoomateRequests,
   Properties,
-  ApprovedRoomates
+  ApprovedRoomates,
 };
 
 export default agent;

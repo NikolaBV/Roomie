@@ -20,7 +20,17 @@ export default function PropertyInfo() {
     retry: false,
   });
 
-  console.log(userPosts.data);
+  const usersForPost = useQuery({
+    queryKey: ["usersForPost"],
+    queryFn: () => {
+      if (userPosts.data) {
+        return agent.ApprovedRoomates.usersForPost(userPosts.data);
+      }
+    },
+    enabled: !!userPosts.data,
+    retry: false,
+    refetchOnWindowFocus: false,
+  });
 
   const propertyDetails = useQuery({
     queryKey: ["propertyDetails"],
