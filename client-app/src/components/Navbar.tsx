@@ -1,4 +1,4 @@
-import { ConfigProvider, Menu, MenuProps } from "antd";
+import { ConfigProvider, Dropdown, Menu, MenuProps, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import routes from "../utils/PageRoutes";
@@ -8,6 +8,17 @@ export default function Navbar() {
   const navigate = useNavigate();
 
   type MenuItem = Required<MenuProps>["items"][number];
+
+  const items: MenuProps["items"] = [
+    {
+      key: "1",
+      label: "Log Out",
+      onClick: () => {
+        localStorage.removeItem("token");
+        message.success("You have been signed out");
+      },
+    },
+  ];
 
   const menuItems: MenuItem[] = [
     {
@@ -28,9 +39,19 @@ export default function Navbar() {
     {
       key: "4",
       label: (
-        <p className="heading-text">
-          {localStorage.getItem("token") ? "Profile" : "Sign In"}
-        </p>
+        <div>
+          {localStorage.getItem("token") ? (
+            <div>
+              <Dropdown menu={{ items }}>
+                <p className="heading-text">Profile</p>
+              </Dropdown>
+            </div>
+          ) : (
+            <div>
+              <p className="heading-text">Sign In</p>
+            </div>
+          )}
+        </div>
       ),
       onClick: () =>
         navigate(
