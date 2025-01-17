@@ -71,10 +71,6 @@ const RoomateRequests = {
 const ApprovedRoomates = {
   getPostIdByUser: (userId: string) =>
     requests.get<string>(`/approvedRoomates/post-by-user?userId=${userId}`),
-  isUserApproved: (userId: string) =>
-    requests.get<boolean>(
-      `/approvedRoomates/is-user-approved?userId=${userId}`
-    ),
   usersForPost: (postId: string) =>
     requests.get<User[]>(
       `/approvedRoomates/approved-users-for-post?postId=${postId}`
@@ -85,12 +81,20 @@ const Properties = {
   getPropertyByPostId: (postId: string) =>
     requests.get<Property>(`/properties/get-property?postId=${postId}`),
 };
+
+const Roomies = {
+  IsUserInARoomie: (userId: string) =>
+    requests.get<Property>(`/roomies/is-user-a-roomie?userId=${userId}` ),
+};
+
+
 const agent = {
   Posts,
   Accounts,
   RoomateRequests,
   Properties,
   ApprovedRoomates,
+  Roomies
 };
 
 export default agent;

@@ -8,11 +8,11 @@ import { getToken } from "../../utils/globals";
 
 export default function MyRoomie() {
   const token = getToken();
-  const isUserApproved = useQuery({
+  const IsUserInARoomie = useQuery({
     queryKey: ["isUserApproved"],
     queryFn: () => {
       if (token) {
-        return agent.ApprovedRoomates.isUserApproved(token?.nameid);
+        return agent.Roomies.IsUserInARoomie(token?.nameid);
       }
     },
   });
@@ -21,7 +21,7 @@ export default function MyRoomie() {
     <div
       style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
     >
-      {isUserApproved.data ? (
+      {IsUserInARoomie.data ? (
         <Layout hasSider>
           <PageSider activeTab={"General"}></PageSider>
           <Layout>
