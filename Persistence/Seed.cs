@@ -45,7 +45,7 @@ namespace Persistence
                         Description =
                             "Looking for a roommate to share a 2-bedroom apartment in the heart of the city. Fully furnished, close to public transport, and includes utilities. Rent is $700/month per person.",
                         Status = true,
-                        FreeSpots = 1,
+                        FreeSpots = 5,
                         CreatedAt = DateTime.Now.AddDays(-10),
                         UpdatedAt = DateTime.Now.AddDays(-9),
                         UserId = user1.Id,
@@ -140,31 +140,7 @@ namespace Persistence
 
             if (!context.Roomies.Any())
             {
-                var roomies = new List<Roomie>
-                {
-                    new Roomie
-                    {
-                        Id = Guid.NewGuid(),
-                        PostId = seededPosts
-                            .First(p => p.Title == "Cozy Apartment in City Center")
-                            .Id,
-                        OwnerId = user1.Id,
-                    },
-                    new Roomie
-                    {
-                        Id = Guid.NewGuid(),
-                        PostId = seededPosts
-                            .First(p => p.Title == "Room Available Near University")
-                            .Id,
-                        OwnerId = user2.Id,
-                    },
-                    new Roomie
-                    {
-                        Id = Guid.NewGuid(),
-                        PostId = seededPosts.First(p => p.Title == "Shared House with Garden").Id,
-                        OwnerId = user2.Id,
-                    },
-                };
+                var roomies = new List<Roomie> { };
 
                 await context.Roomies.AddRangeAsync(roomies);
                 await context.SaveChangesAsync();
