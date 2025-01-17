@@ -1,5 +1,5 @@
-using Domain.Enums;
 using System.Text.Json.Serialization;
+using Domain.Enums;
 
 namespace Domain
 {
@@ -25,5 +25,8 @@ namespace Domain
 
         [JsonIgnore]
         public ICollection<ApprovedRoomate> ApprovedRoomates { get; set; }
+
+        [JsonIgnore]
+        public Roomie Roomie { get; set; }
     }
 }

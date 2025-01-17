@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -10,9 +11,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250117183138_AddedRoomieEntity")]
+    partial class AddedRoomieEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
@@ -136,19 +139,27 @@ namespace Persistence.Migrations
                     b.ToTable("RoomateRequests");
                 });
 
-            modelBuilder.Entity("Domain.RoomieUser", b =>
+            modelBuilder.Entity("Domain.Roomie", b =>
                 {
-                    b.Property<Guid>("RoomieId")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("UserId")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("RoomieId", "UserId");
+                    b.Property<string>("OwnerId")
+                        .HasColumnType("TEXT");
 
-                    b.HasIndex("UserId");
+                    b.Property<Guid>("PostId")
+                        .HasColumnType("TEXT");
 
-                    b.ToTable("RoomieUser");
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId")
+                        .IsUnique();
+
+                    b.ToTable("Roomies");
                 });
 
             modelBuilder.Entity("Domain.User", b =>
@@ -199,6 +210,9 @@ namespace Persistence.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("INTEGER");
 
+                    b.Property<Guid?>("RoomieId")
+                        .HasColumnType("TEXT");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("TEXT");
 
@@ -217,6 +231,8 @@ namespace Persistence.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("RoomieId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -349,29 +365,6 @@ namespace Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Roomie", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("OwnerId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId")
-                        .IsUnique();
-
-                    b.ToTable("Roomies");
-                });
-
             modelBuilder.Entity("Domain.ApprovedRoomate", b =>
                 {
                     b.HasOne("Domain.Post", "Post")
@@ -430,23 +423,23 @@ namespace Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Domain.RoomieUser", b =>
+            modelBuilder.Entity("Domain.Roomie", b =>
                 {
-                    b.HasOne("Roomie", "Roomie")
-                        .WithMany("RoomieUsers")
+                    b.HasOne("Domain.Post", "Post")
+                        .WithOne("Roomie")
+                        .HasForeignKey("Domain.Roomie", "PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("Domain.User", b =>
+                {
+                    b.HasOne("Domain.Roomie", null)
+                        .WithMany("UsersLivingTogether")
                         .HasForeignKey("RoomieId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Roomie");
-
-                    b.Navigation("User");
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -500,17 +493,6 @@ namespace Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Roomie", b =>
-                {
-                    b.HasOne("Domain.Post", "Post")
-                        .WithOne("Roomie")
-                        .HasForeignKey("Roomie", "PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-                });
-
             modelBuilder.Entity("Domain.Post", b =>
                 {
                     b.Navigation("ApprovedRoomates");
@@ -522,6 +504,11 @@ namespace Persistence.Migrations
                     b.Navigation("Roomie");
                 });
 
+            modelBuilder.Entity("Domain.Roomie", b =>
+                {
+                    b.Navigation("UsersLivingTogether");
+                });
+
             modelBuilder.Entity("Domain.User", b =>
                 {
                     b.Navigation("ApprovedPosts");
@@ -529,11 +516,6 @@ namespace Persistence.Migrations
                     b.Navigation("CreatedPosts");
 
                     b.Navigation("RoomateRequests");
-                });
-
-            modelBuilder.Entity("Roomie", b =>
-                {
-                    b.Navigation("RoomieUsers");
                 });
 #pragma warning restore 612, 618
         }

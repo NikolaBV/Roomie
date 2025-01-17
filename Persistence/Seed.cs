@@ -1,5 +1,5 @@
-using Domain.Enums;
 using Domain;
+using Domain.Enums;
 using Microsoft.AspNetCore.Identity;
 
 namespace Persistence
@@ -14,15 +14,17 @@ namespace Persistence
                 {
                     UserName = "NikolaBV",
                     Email = "nikolavalkovb@gmail.com",
-                    Bio = "A software developer who enjoys sharing living spaces with like-minded people.",
-                    Available = true
+                    Bio =
+                        "A software developer who enjoys sharing living spaces with like-minded people.",
+                    Available = true,
                 };
                 var userTwo = new User
                 {
                     UserName = "bulgarianmapper",
                     Email = "bulgarianmapper64@gmail.com",
-                    Bio = "An enthusiastic traveler and student, always looking for a quiet place to study.",
-                    Available = true
+                    Bio =
+                        "An enthusiastic traveler and student, always looking for a quiet place to study.",
+                    Available = true,
                 };
 
                 await userManager.CreateAsync(userOne, "Pa$$w0rd");
@@ -40,35 +42,38 @@ namespace Persistence
                     {
                         Id = Guid.NewGuid(),
                         Title = "Cozy Apartment in City Center",
-                        Description = "Looking for a roommate to share a 2-bedroom apartment in the heart of the city. Fully furnished, close to public transport, and includes utilities. Rent is $700/month per person.",
+                        Description =
+                            "Looking for a roommate to share a 2-bedroom apartment in the heart of the city. Fully furnished, close to public transport, and includes utilities. Rent is $700/month per person.",
                         Status = true,
-                        FreeSpots = 5,
+                        FreeSpots = 1,
                         CreatedAt = DateTime.Now.AddDays(-10),
                         UpdatedAt = DateTime.Now.AddDays(-9),
-                        UserId = user1.Id
+                        UserId = user1.Id,
                     },
                     new Post
                     {
                         Id = Guid.NewGuid(),
                         Title = "Room Available Near University",
-                        Description = "Spacious room available in a 3-bedroom house, 10 minutes from campus. Ideal for students. Rent is $500/month, excluding utilities. Shared living room and kitchen.",
+                        Description =
+                            "Spacious room available in a 3-bedroom house, 10 minutes from campus. Ideal for students. Rent is $500/month, excluding utilities. Shared living room and kitchen.",
                         Status = false,
                         FreeSpots = 1,
                         CreatedAt = DateTime.Now.AddDays(-7),
                         UpdatedAt = DateTime.Now.AddDays(-6),
-                        UserId = user2.Id
+                        UserId = user2.Id,
                     },
                     new Post
                     {
                         Id = Guid.NewGuid(),
                         Title = "Shared House with Garden",
-                        Description = "Room available in a 4-bedroom house with a garden. Great for someone who enjoys a quiet, homely atmosphere. Rent is $550/month, plus utilities. Pets are welcome!",
+                        Description =
+                            "Room available in a 4-bedroom house with a garden. Great for someone who enjoys a quiet, homely atmosphere. Rent is $550/month, plus utilities. Pets are welcome!",
                         Status = true,
                         FreeSpots = 2,
                         CreatedAt = DateTime.Now.AddDays(-3),
                         UpdatedAt = DateTime.Now.AddDays(-2),
-                        UserId = user2.Id
-                    }
+                        UserId = user2.Id,
+                    },
                 };
 
                 await context.Posts.AddRangeAsync(posts);
@@ -90,7 +95,9 @@ namespace Persistence
                         Furnished = true,
                         Rent = 1400,
                         AdditionalNotes = "Close to public transport and fully furnished.",
-                        PostId = seededPosts.First(p => p.Title == "Cozy Apartment in City Center").Id
+                        PostId = seededPosts
+                            .First(p => p.Title == "Cozy Apartment in City Center")
+                            .Id,
                     },
                     new Property
                     {
@@ -101,7 +108,9 @@ namespace Persistence
                         Furnished = false,
                         Rent = 1500,
                         AdditionalNotes = "Ideal for students, 10 minutes from campus.",
-                        PostId = seededPosts.First(p => p.Title == "Room Available Near University").Id
+                        PostId = seededPosts
+                            .First(p => p.Title == "Room Available Near University")
+                            .Id,
                     },
                     new Property
                     {
@@ -112,8 +121,8 @@ namespace Persistence
                         Furnished = true,
                         Rent = 2200,
                         AdditionalNotes = "Spacious garden, pets allowed.",
-                        PostId = seededPosts.First(p => p.Title == "Shared House with Garden").Id
-                    }
+                        PostId = seededPosts.First(p => p.Title == "Shared House with Garden").Id,
+                    },
                 };
 
                 await context.Set<Property>().AddRangeAsync(properties);
@@ -126,6 +135,49 @@ namespace Persistence
                 }
 
                 context.Posts.UpdateRange(seededPosts);
+                await context.SaveChangesAsync();
+            }
+
+            if (!context.Roomies.Any())
+            {
+                var roomies = new List<Roomie>
+                {
+                    new Roomie
+                    {
+                        Id = Guid.NewGuid(),
+                        PostId = seededPosts
+                            .First(p => p.Title == "Cozy Apartment in City Center")
+                            .Id,
+                        OwnerId = user1.Id,
+                    },
+                    new Roomie
+                    {
+                        Id = Guid.NewGuid(),
+                        PostId = seededPosts
+                            .First(p => p.Title == "Room Available Near University")
+                            .Id,
+                        OwnerId = user2.Id,
+                    },
+                    new Roomie
+                    {
+                        Id = Guid.NewGuid(),
+                        PostId = seededPosts.First(p => p.Title == "Shared House with Garden").Id,
+                        OwnerId = user2.Id,
+                    },
+                };
+
+                await context.Roomies.AddRangeAsync(roomies);
+                await context.SaveChangesAsync();
+
+                // Add RoomieUsers
+                var roomieUsers = new List<RoomieUser>
+                {
+                    new RoomieUser { RoomieId = roomies[0].Id, UserId = user1.Id },
+                    new RoomieUser { RoomieId = roomies[1].Id, UserId = user2.Id },
+                    new RoomieUser { RoomieId = roomies[2].Id, UserId = user2.Id },
+                };
+
+                await context.Set<RoomieUser>().AddRangeAsync(roomieUsers);
                 await context.SaveChangesAsync();
             }
         }
