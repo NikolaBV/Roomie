@@ -17,6 +17,7 @@ namespace Domain
         [JsonIgnore]
         public User Creator { get; set; }
 
+        [JsonIgnore]
         public Property Property { get; set; }
         public Guid PropertyId { get; set; }
 

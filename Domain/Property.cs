@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Domain.Enums;
 
@@ -17,6 +18,8 @@ namespace Domain
         public string AdditionalNotes { get; set; }
 
         public Guid PostId { get; set; }
+
+        [JsonIgnore]
         public Post Post { get; set; }
     }
 }

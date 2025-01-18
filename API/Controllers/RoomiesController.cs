@@ -1,4 +1,5 @@
 using Application.Roomies;
+using Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
@@ -20,6 +21,20 @@ namespace API.Controllers
             return HandleResult(
                 await Mediator.Send(
                     new IsUserInARoomie.Query { UserId = userId },
+                    cancellationToken
+                )
+            );
+        }
+
+        [HttpPost("get-property-by-userId")]
+        public async Task<ActionResult<Property>> GetPropertyByUserId(
+            [FromBody] string userId,
+            CancellationToken cancellationToken
+        )
+        {
+            return HandleResult(
+                await Mediator.Send(
+                    new GetPropertyByUserId.Query { UserId = userId },
                     cancellationToken
                 )
             );
