@@ -68,15 +68,6 @@ const RoomateRequests = {
     requests.put(`/RoomateRequests/update-status`, model),
 };
 
-const ApprovedRoomates = {
-  getPostIdByUser: (userId: string) =>
-    requests.get<string>(`/approvedRoomates/post-by-user?userId=${userId}`),
-  usersForPost: (postId: string) =>
-    requests.get<User[]>(
-      `/approvedRoomates/approved-users-for-post?postId=${postId}`
-    ),
-};
-
 const Properties = {
   getPropertyByPostId: (postId: string) =>
     requests.get<Property>(`/properties/get-property?postId=${postId}`),
@@ -93,7 +84,6 @@ const agent = {
   Accounts,
   RoomateRequests,
   Properties,
-  ApprovedRoomates,
   Roomies
 };
 
