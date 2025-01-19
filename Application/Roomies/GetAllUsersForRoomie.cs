@@ -6,14 +6,14 @@ using Persistence;
 
 namespace Application.Roomies
 {
-    public class GetPropertyByUserId
+    public class GetAllUsersForRoomie
     {
-        public class Query : IRequest<Result<Property>>
+        public class Query : IRequest<Result<List<User>>>
         {
             public string UserId { get; set; }
         }
 
-        public class Handler : IRequestHandler<Query, Result<Property>>
+        public class Handler : IRequestHandler<Query, Result<List<User>>>
         {
             private readonly DataContext _context;
 
@@ -22,7 +22,7 @@ namespace Application.Roomies
                 _context = context;
             }
 
-            public async Task<Result<Property>> Handle(
+            public async Task<Result<List<User>>> Handle(
                 Query request,
                 CancellationToken cancellationToken
             )
@@ -36,12 +36,16 @@ namespace Application.Roomies
                     );
                 if (roomie == null)
                 {
-                    return Result<Property>.Failure("Not found");
+                    return Result<List<User>>.Failure("Not found");
                 }
-                var post = await _context.Posts.FindAsync(roomie.PostId);
-                var property = await _context.Properties.FindAsync(post.PropertyId);
+                var users = new List<User>();
 
-                return Result<Property>.Success(property);
+                foreach (var roomieUser in roomie.RoomieUsers)
+                {
+                    var currentUser = await _context.Users.FindAsync(roomieUser.UserId);
+                    users.Add(currentUser);
+                }
+                return Result<List<User>>.Success(users);
             }
         }
     }

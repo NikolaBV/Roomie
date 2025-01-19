@@ -9,40 +9,7 @@ export default function PropertyInfo() {
   const token = getToken();
 
   // Fetch user posts
-  const userPosts = useQuery({
-    queryKey: ["usersPosts"],
-    queryFn: () => {
-      if (token) {
-        return agent.ApprovedRoomates.getPostIdByUser(token?.nameid);
-      }
-    },
-    enabled: !!token,
-    retry: false,
-  });
 
-  const usersForPost = useQuery({
-    queryKey: ["usersForPost"],
-    queryFn: () => {
-      if (userPosts.data) {
-        return agent.ApprovedRoomates.usersForPost(userPosts.data);
-      }
-    },
-    enabled: !!userPosts.data,
-    retry: false,
-    refetchOnWindowFocus: false,
-  });
-
-  const propertyDetails = useQuery({
-    queryKey: ["propertyDetails"],
-    queryFn: () => {
-      if (userPosts.data) {
-        return agent.Properties.getPropertyByPostId(userPosts.data);
-      }
-    },
-    retry: false,
-    refetchOnWindowFocus: false,
-    enabled: !!userPosts.data,
-  });
 
   return (
     <div
