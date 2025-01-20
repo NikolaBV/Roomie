@@ -47,5 +47,12 @@ namespace API.Controllers
                 await Mediator.Send(new GetAllUsersForRoomie.Query { UserId = userId })
             );
         }
+        [HttpPost("remove-roomieUser-by-userId")]
+        public async Task<ActionResult<ICollection<RoomieUser>>> RemoveRoomieUserByUserId([FromBody] string userId)
+        {
+            return HandleResult(
+                await Mediator.Send(new LeaveRoomie.Command { UserId = userId })
+            );
+        }
     }
 }
