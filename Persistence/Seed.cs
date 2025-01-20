@@ -134,29 +134,13 @@ namespace Persistence
                 // Update Posts with their PropertyId
                 foreach (var post in seededPosts)
                 {
-                    post.PropertyId = properties.First(p => p.PostId == post.Id).Id;
+                    var property = properties.First(p => p.PostId == post.Id);
+                    post.PropertyId = property.Id;
+                    property.UserId = post.UserId;
                 }
 
                 context.Posts.UpdateRange(seededPosts);
-                await context.SaveChangesAsync();
-            }
-
-            if (!context.Roomies.Any())
-            {
-                var roomies = new List<Roomie> { };
-
-                await context.Roomies.AddRangeAsync(roomies);
-                await context.SaveChangesAsync();
-
-                // Add RoomieUsers
-                var roomieUsers = new List<RoomieUser>
-                {
-                    new RoomieUser { RoomieId = roomies[0].Id, UserId = user1.Id },
-                    new RoomieUser { RoomieId = roomies[1].Id, UserId = user2.Id },
-                    new RoomieUser { RoomieId = roomies[2].Id, UserId = user2.Id },
-                };
-
-                await context.Set<RoomieUser>().AddRangeAsync(roomieUsers);
+                context.Set<Property>().UpdateRange(properties);
                 await context.SaveChangesAsync();
             }
         }

@@ -80,6 +80,7 @@ export interface CreatePostModel {
   createdAt: Date;
   updatedAt: Date;
   userId: string | undefined;
+  PropertyId: string;
 }
 
 export interface UserAvailabilityModel {

@@ -71,20 +71,21 @@ const RoomateRequests = {
 const Properties = {
   getPropertyByPostId: (postId: string) =>
     requests.get<Property>(`/properties/get-property?postId=${postId}`),
+  listByUserId: (userId: string) =>
+    requests.get<Property[]>(`/properties/list-by-userId?userId=${userId}`),
 };
 
 const Roomies = {
   IsUserInARoomie: (userId: string) =>
-    requests.get<Property>(`/roomies/is-user-a-roomie?userId=${userId}` ),
+    requests.get<Property>(`/roomies/is-user-a-roomie?userId=${userId}`),
 };
-
 
 const agent = {
   Posts,
   Accounts,
   RoomateRequests,
   Properties,
-  Roomies
+  Roomies,
 };
 
 export default agent;

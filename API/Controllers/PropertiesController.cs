@@ -22,5 +22,14 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new List.Query()));
         }
+
+        [HttpGet("list-by-userId")]
+        public async Task<ActionResult<Property>> ListByUserId(
+            [FromQuery] string userId,
+            CancellationToken cancellationToken
+        )
+        {
+            return HandleResult(await Mediator.Send(new ListByUserId.Query { UserId = userId }));
+        }
     }
 }
