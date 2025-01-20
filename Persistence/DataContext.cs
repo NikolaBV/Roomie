@@ -32,6 +32,11 @@ namespace Persistence
                 .HasOne(p => p.Property)
                 .WithOne(prop => prop.Post)
                 .HasForeignKey<Property>(pr => pr.PostId);
+            builder
+                .Entity<Property>()
+                .HasOne(p => p.User)
+                .WithOne(u => u.Property)
+                .HasForeignKey<Property>(p => p.UserId);
 
             // One-to-many: Users to Roommate Requests
             builder

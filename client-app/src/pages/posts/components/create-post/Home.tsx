@@ -4,9 +4,10 @@ import Input from "antd/es/input";
 import dayjs from "dayjs";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { CreatePostModel } from "../../../../api/models";
+import { CreatePostModel, Property } from "../../../../api/models";
 import agent from "../../../../api/agent";
 import { decodeToken } from "../../../../utils/globals";
+import { Checkbox, Select } from "antd";
 
 export default function CreatePost() {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ export default function CreatePost() {
   };
 
   return (
-    <div className="column">
+    <div className="column container">
       <div>
         <p className="heading-text mb-1">Create a post</p>
         <Form onFinish={handleSubmit}>
@@ -68,6 +69,27 @@ export default function CreatePost() {
                 height: "2.25rem",
               }}
             />
+          </Form.Item>
+          <Form.Item name="address" rules={[{ required: true }]}>
+            <Input
+              placeholder="Address"
+              style={{
+                width: "100%",
+                height: "2.25rem",
+              }}
+            />
+          </Form.Item>
+          <Form.Item name="property" rules={[{ required: true }]}>
+            <Select
+              defaultValue={"property"}
+              options={[
+                { value: "Studio", label: "Studio" },
+                { value: "lucy", label: "Lucy" },
+                { value: "OneBedroom", label: "One Bedroom" },
+                { value: "TwoBedroom", label: "Two Bedroom" },
+                { value: "ThreeBedroom", label: "Three Bedroom" },
+              ]}
+            ></Select>
           </Form.Item>
           <Form.Item>
             <Button htmlType="submit">Create Post</Button>

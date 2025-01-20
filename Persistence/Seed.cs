@@ -98,6 +98,7 @@ namespace Persistence
                         PostId = seededPosts
                             .First(p => p.Title == "Cozy Apartment in City Center")
                             .Id,
+                        UserId = user1.Id,
                     },
                     new Property
                     {
@@ -111,6 +112,7 @@ namespace Persistence
                         PostId = seededPosts
                             .First(p => p.Title == "Room Available Near University")
                             .Id,
+                        UserId = user1.Id,
                     },
                     new Property
                     {
@@ -122,6 +124,7 @@ namespace Persistence
                         Rent = 2200,
                         AdditionalNotes = "Spacious garden, pets allowed.",
                         PostId = seededPosts.First(p => p.Title == "Shared House with Garden").Id,
+                        UserId = user2.Id,
                     },
                 };
 

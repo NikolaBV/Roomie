@@ -7,9 +7,20 @@ namespace API.Controllers
     public class PropertiesController : BaseApiController
     {
         [HttpGet("get-property")]
-        public async Task<ActionResult<Property>> GetPropertyByPostId([FromQuery] Guid postId, CancellationToken cancellationToken)
+        public async Task<ActionResult<Property>> GetPropertyByPostId(
+            [FromQuery] Guid postId,
+            CancellationToken cancellationToken
+        )
         {
             return HandleResult(await Mediator.Send(new Details.Query { PostId = postId }));
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<Property>> ListProperties(
+            CancellationToken cancellationToken
+        )
+        {
+            return HandleResult(await Mediator.Send(new List.Query()));
         }
     }
 }

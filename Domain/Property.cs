@@ -21,5 +21,9 @@ namespace Domain
 
         [JsonIgnore]
         public Post Post { get; set; }
+        public string UserId { get; set; }
+
+        [JsonIgnore]
+        public User User { get; set; }
     }
 }

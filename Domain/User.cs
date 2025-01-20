@@ -1,5 +1,5 @@
-using Microsoft.AspNetCore.Identity;
 using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Identity;
 
 namespace Domain
 {
@@ -17,5 +17,8 @@ namespace Domain
         [JsonIgnore]
         public ICollection<ApprovedRoomate> ApprovedPosts { get; set; }
 
+        [JsonIgnore]
+        public Property Property { get; set; }
+        public Guid PropertyId { get; set; }
     }
 }
