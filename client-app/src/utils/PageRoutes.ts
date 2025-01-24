@@ -22,6 +22,7 @@ const profile = {
 const myRoomie = {
   home: staticUri.myRoomie,
   property: `${staticUri.myRoomie}/property`,
+  roomies: `${staticUri.myRoomie}/roomies`,
 };
 const routes = {
   staticUri,

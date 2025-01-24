@@ -7,6 +7,7 @@ import {
   Property,
   RoomateRequest,
   RoomateRequestCreateModel,
+  RoomieUser,
   UpdateRequestStatusDTO,
   User,
   UserAvailabilityModel,
@@ -80,6 +81,8 @@ const Roomies = {
     requests.get<Property>(`/roomies/is-user-a-roomie?userId=${userId}`),
   GetPropertyInfoByUserId: (userId: string) =>
     requests.get<Property>(`/roomies/get-property-by-userId?userId=${userId}`),
+  getUsersOfRoomie: (userId: string) =>
+    requests.get<RoomieUser[]>(`/roomies/get-users-of-roomie?userId=${userId}`),
 };
 
 const agent = {

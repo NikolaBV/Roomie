@@ -23,6 +23,7 @@ export default function PageSider({ activeTab }: Props) {
     {
       key: "Roomies",
       label: "Roomies",
+      onClick: () => navigate(routes.myRoomie.roomies),
     },
     {
       key: "Rent & Utilities",

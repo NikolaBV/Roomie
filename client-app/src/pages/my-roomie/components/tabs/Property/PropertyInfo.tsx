@@ -1,9 +1,9 @@
 import { Col, Image, Layout, Row } from "antd";
-import PageSider from "../PageSider";
-import { Content } from "antd/es/layout/layout";
-import { getToken } from "../../../../utils/globals";
+import { getToken } from "../../../../../utils/globals";
 import { useQuery } from "@tanstack/react-query";
-import agent from "../../../../api/agent";
+import agent from "../../../../../api/agent";
+import PageSider from "../../PageSider";
+import { Content } from "antd/es/layout/layout";
 
 export default function PropertyInfo() {
   const token = getToken();

@@ -40,9 +40,9 @@ namespace API.Controllers
             );
         }
 
-        [HttpPost("get-users-of-roomie")]
+        [HttpGet("get-users-of-roomie")]
         public async Task<ActionResult<ICollection<RoomieUser>>> GetUsersOfRoomie(
-            [FromBody] string userId
+            [FromQuery] string userId
         )
         {
             return HandleResult(

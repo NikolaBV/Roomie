@@ -14,7 +14,8 @@ import routes from "./utils/PageRoutes";
 import MyPosts from "./pages/profile/components/profile-tabs/tabs/my-posts/MyPosts";
 import MyRoomie from "./pages/my-roomie/Home";
 import MyRequests from "./pages/profile/components/profile-tabs/tabs/my-requests/MyRequests";
-import PropertyInfo from "./pages/my-roomie/components/tabs/PropertyInfo";
+import Roomies from "./pages/my-roomie/components/tabs/Roomies/Home";
+import PropertyInfo from "./pages/my-roomie/components/tabs/Property/PropertyInfo";
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const AppProvider = () => {
                 path={routes.myRoomie.property}
                 element={<PropertyInfo />}
               />
+              <Route path={routes.myRoomie.roomies} element={<Roomies />} />
             </Routes>
           </PageLayout>
         </BrowserRouter>
