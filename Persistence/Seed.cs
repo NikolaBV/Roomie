@@ -131,7 +131,6 @@ namespace Persistence
                 await context.Set<Property>().AddRangeAsync(properties);
                 await context.SaveChangesAsync();
 
-                // Update Posts with their PropertyId
                 foreach (var post in seededPosts)
                 {
                     var property = properties.First(p => p.PostId == post.Id);

@@ -78,6 +78,8 @@ const Properties = {
 const Roomies = {
   IsUserInARoomie: (userId: string) =>
     requests.get<Property>(`/roomies/is-user-a-roomie?userId=${userId}`),
+  GetPropertyInfoByUserId: (userId: string) =>
+    requests.get<Property>(`/roomies/get-property-by-userId?userId=${userId}`),
 };
 
 const agent = {
