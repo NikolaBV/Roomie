@@ -37,6 +37,7 @@ const AppProvider = () => {
               />
               <Route path={routes.profile.myPosts} element={<MyPosts />} />
               <Route path={routes.posts.createPost} element={<CreatePost />} />
+
               <Route path={routes.myRoomie.home} element={<MyRoomie />} />
               <Route
                 path={routes.myRoomie.property}

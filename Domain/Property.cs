@@ -17,11 +17,11 @@ namespace Domain
         public decimal Rent { get; set; }
         public string AdditionalNotes { get; set; }
 
-        public Guid PostId { get; set; }
+        public Guid? PostId { get; set; }
 
         [JsonIgnore]
         public Post Post { get; set; }
-        public string UserId { get; set; }
+        public string UserId { get; set; } 
 
         [JsonIgnore]
         public User User { get; set; }

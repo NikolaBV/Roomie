@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import {
   CreatePostModel,
+  CreatePropertyModel,
   LoginModel,
   Post,
   PostDetailsResult,
@@ -40,7 +41,7 @@ const Posts = {
     const url = userId ? `/posts/${id}?userId=${userId}` : `/posts/${id}`;
     return requests.get<PostDetailsResult>(url);
   },
-  create: (model: CreatePostModel) => requests.post("/posts", model),
+  create: (model: CreatePostModel) => requests.post<Post>("/posts", model),
   getPostsByUser: (userId: string) =>
     requests.get<Post[]>(`/posts/posts-by-user?userId=${userId}`),
 };
@@ -74,6 +75,8 @@ const Properties = {
     requests.get<Property>(`/properties/get-property?postId=${postId}`),
   listByUserId: (userId: string) =>
     requests.get<Property[]>(`/properties/list-by-userId?userId=${userId}`),
+  create: (model: CreatePropertyModel) =>
+    requests.post<Property>(`/properties/`, model),
 };
 
 const Roomies = {

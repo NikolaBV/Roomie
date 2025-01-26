@@ -9,6 +9,7 @@ const posts = {
   posts: staticUri.posts,
   postById: `${staticUri.posts}/:id`,
   createPost: "/create-post",
+  createProperty: "/create-property",
 };
 const authenticate = {
   signIn: `${staticUri.signIn}`,

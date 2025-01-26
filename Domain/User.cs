@@ -18,7 +18,6 @@ namespace Domain
         public ICollection<ApprovedRoomate> ApprovedPosts { get; set; }
 
         [JsonIgnore]
-        public Property Property { get; set; }
-        public Guid PropertyId { get; set; }
+        public ICollection<Property> Properties { get; set; }
     }
 }
