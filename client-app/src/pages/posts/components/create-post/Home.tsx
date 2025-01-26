@@ -4,17 +4,19 @@ import Input from "antd/es/input";
 import dayjs from "dayjs";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { Select, Checkbox } from "antd";
+import { Select, Checkbox, Modal } from "antd";
 import { useState } from "react";
 import { CreatePostModel, CreatePropertyModel } from "../../../../api/models";
 import agent from "../../../../api/agent";
 import { decodeToken, getToken } from "../../../../utils/globals";
+import { PlusOutlined } from "@ant-design/icons";
 
 export default function CreatePost() {
   const navigate = useNavigate();
   const token = getToken();
   const [propertyFormVisible, setPropertyFormVisible] = useState(false);
-  const [propertyId, setPropertyId] = useState("");
+  const [propertyId, setPropertyId] = useState(""); // Store selected property ID
+  const [createPropertyModal, setcreatePropertyModal] = useState(false);
   const queryClient = useQueryClient();
 
   const createPost = useMutation({
@@ -44,7 +46,17 @@ export default function CreatePost() {
       label: `${p.address}`,
       value: p.id,
     })) || []),
-    { label: "Add a new property", value: "Add a new property" },
+    {
+      label: (
+        <p style={{ fontSize: "0.8rem" }}>
+          <span style={{ marginRight: "0.2rem" }}>
+            <PlusOutlined />
+          </span>
+          Add a new property
+        </p>
+      ),
+      value: "Add a new property",
+    },
   ];
 
   const handleCreatePost = async (values: any) => {
@@ -86,16 +98,22 @@ export default function CreatePost() {
         postId: propertyId ? propertyId : null,
       };
 
-      await createProperty.mutateAsync(propertyModel);
+      const newProperty = await createProperty.mutateAsync(propertyModel);
       setPropertyFormVisible(false);
+      setcreatePropertyModal(false);
+
+      // Set the newly created property as selected in the dropdown
+      if (newProperty?.id) {
+        setPropertyId(newProperty.id); // Update the selected property ID
+      }
     } catch (error) {
       console.error("Failed to create property:", error);
     }
   };
 
   return (
-    <div className="column container">
-      <div>
+    <div className="container">
+      <div className="mr-5">
         <p className="heading-text mb-1">Create a Post</p>
         <Form onFinish={handleCreatePost}>
           <Form.Item name="title" rules={[{ required: true }]}>
@@ -120,10 +138,15 @@ export default function CreatePost() {
           <Form.Item name="property" rules={[{ required: true }]}>
             <Select
               placeholder="Select property"
+              value={propertyId} // Set the value to propertyId
               options={options}
               onChange={(value) => {
-                setPropertyFormVisible(value === "Add a new property");
-                setPropertyId(value !== "Add a new property" ? value : "");
+                if (value === "Add a new property") {
+                  setPropertyFormVisible(value === "Add a new property");
+                  setcreatePropertyModal(true);
+                } else {
+                  setPropertyId(value);
+                }
               }}
             />
           </Form.Item>
@@ -136,45 +159,53 @@ export default function CreatePost() {
         </Form>
       </div>
 
-      {propertyFormVisible && (
-        <div style={{ marginTop: "2rem" }}>
-          <p className="heading-text mb-1">Create a Property</p>
-          <Form onFinish={handleCreateProperty}>
-            <Form.Item name="address" rules={[{ required: true }]}>
-              <Input placeholder="Address" />
-            </Form.Item>
-            <Form.Item name="apartmentType" rules={[{ required: true }]}>
-              <Select
-                defaultValue="Studio"
-                options={[
-                  { value: "Studio", label: "Studio" },
-                  { value: "OneBedroom", label: "One Bedroom" },
-                  { value: "TwoBedroom", label: "Two Bedroom" },
-                  { value: "ThreeBedroom", label: "Three Bedroom" },
-                ]}
-              />
-            </Form.Item>
-            <Form.Item name="numberOfRooms" rules={[{ required: true }]}>
-              <Input placeholder="Number of Rooms" />
-            </Form.Item>
-            <Form.Item name="furnished" valuePropName="checked">
-              <Checkbox>Furnished?</Checkbox>
-            </Form.Item>
-            <Form.Item name="rent" rules={[{ required: true }]}>
-              <Input placeholder="Rent" />
-            </Form.Item>
-            <Form.Item name="additionalNotes">
-              <Input placeholder="Additional Notes" />
-            </Form.Item>
+      <Modal
+        open={createPropertyModal}
+        footer={false}
+        onCancel={() => {
+          setcreatePropertyModal(false);
+        }}
+      >
+        {propertyFormVisible && (
+          <div style={{ marginTop: "2rem" }}>
+            <p className="heading-text mb-1">Create a Property</p>
+            <Form onFinish={handleCreateProperty}>
+              <Form.Item name="address" rules={[{ required: true }]}>
+                <Input placeholder="Address" />
+              </Form.Item>
+              <Form.Item name="apartmentType" rules={[{ required: true }]}>
+                <Select
+                  defaultValue="Studio"
+                  options={[
+                    { value: "Studio", label: "Studio" },
+                    { value: "OneBedroom", label: "One Bedroom" },
+                    { value: "TwoBedroom", label: "Two Bedroom" },
+                    { value: "ThreeBedroom", label: "Three Bedroom" },
+                  ]}
+                />
+              </Form.Item>
+              <Form.Item name="numberOfRooms" rules={[{ required: true }]}>
+                <Input placeholder="Number of Rooms" />
+              </Form.Item>
+              <Form.Item name="furnished" valuePropName="checked">
+                <Checkbox>Furnished?</Checkbox>
+              </Form.Item>
+              <Form.Item name="rent" rules={[{ required: true }]}>
+                <Input placeholder="Rent" />
+              </Form.Item>
+              <Form.Item name="additionalNotes">
+                <Input placeholder="Additional Notes" />
+              </Form.Item>
 
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Create Property
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
-      )}
+              <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Create Property
+                </Button>
+              </Form.Item>
+            </Form>
+          </div>
+        )}
+      </Modal>
     </div>
   );
 }
