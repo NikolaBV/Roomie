@@ -6,14 +6,16 @@ export default function HomePage() {
   const navigate = useNavigate();
 
   return (
-    <div className="container">
+    <div className="container column">
       <div
+        className="content-wrapper"
         style={{
           margin: "10rem 0 1rem 0",
           display: "flex",
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
+          flex: 1,
         }}
       >
         <h1 style={{ fontSize: "5rem", marginBottom: "1rem" }}>
@@ -36,6 +38,8 @@ export default function HomePage() {
           Go to posts
         </Button>
       </div>
+      {/*TODO Finish up the landing page content*/}
+      <div style={{ height: "100vh" }}></div>
     </div>
   );
 }

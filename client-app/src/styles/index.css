@@ -282,18 +282,20 @@
 
 html,
 body {
-  background-color: var(--primary-color);
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  margin: 0;
 }
 
 .container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100vh
+  flex: 1;
+  min-height: 100%;
 }
 .column {
   display: flex;
@@ -331,18 +333,13 @@ body {
   margin-right: 1rem;
 }
 
-/* Footer Styles */
 .footer-container {
   background: var(--gradient-dark-background);
   width: 100%;
   height: 4rem;
   padding: 1rem 0;
   text-align: center;
-  position: relative;
-  bottom: 0;
-  left: 0;
 }
-
 .footer-items {
   display: flex;
   justify-content: center;
@@ -368,8 +365,8 @@ body {
 .grid-2-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  row-gap: 1rem; /* Less vertical space between rows */
-  column-gap: 1.5rem; /* More horizontal space between columns */
+  row-gap: 1rem;
+  column-gap: 1.5rem;
 }
 
 .grid-item {
@@ -377,11 +374,17 @@ body {
   font-size: 2rem;
 }
 
-/* Force-link styles for clickable spans */
 .force-link {
   text-decoration: none;
   cursor: pointer;
-  transition: color 0.3s ease-in-out;
+  transition: color 0.4s ease-in-out;
+}
+.content-wrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .force-link:hover {
