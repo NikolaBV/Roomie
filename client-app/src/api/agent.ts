@@ -5,6 +5,7 @@ import {
   Post,
   PostDetailsResult,
   Property,
+  RegisterModel,
   RoomateRequest,
   RoomateRequestCreateModel,
   UpdateRequestStatusDTO,
@@ -47,6 +48,8 @@ const Posts = {
 const Accounts = {
   login: (loginDTO: LoginModel) =>
     requests.post<UserDTO>("/accounts/login", loginDTO),
+  register: (registerModel: RegisterModel) =>
+    requests.post<UserDTO>("accounts/register", registerModel),
   isUserAvaiable: (model: UserAvailabilityModel) =>
     requests.post<string>(`/accounts/is-user-available`, model),
 };

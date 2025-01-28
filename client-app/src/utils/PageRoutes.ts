@@ -1,7 +1,7 @@
 const staticUri = {
   root: "/",
   posts: "/posts",
-  signIn: "/sign-in",
+  authenticate: "/auth",
   profile: "/profile",
   myRoomie: "/my-roomie",
 };
@@ -11,7 +11,8 @@ const posts = {
   createPost: "/create-post",
 };
 const authenticate = {
-  signIn: `${staticUri.signIn}`,
+  signIn: `${staticUri.authenticate}/signIn`,
+  signUp: `${staticUri.authenticate}/signUp`,
 };
 const profile = {
   home: staticUri.profile,

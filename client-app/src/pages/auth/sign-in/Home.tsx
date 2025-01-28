@@ -1,16 +1,20 @@
 import { Button, Form, Input, message } from "antd";
-import { LoginModel } from "../../api/models";
+import { LoginModel } from "../../../api/models";
 import { useMutation } from "@tanstack/react-query";
-import agent from "../../api/agent";
+import agent from "../../../api/agent";
+import { useNavigate } from "react-router-dom";
+import routes from "../../../utils/PageRoutes";
+import { AxiosError } from "axios";
 
 export default function SignIn() {
+  const navigate = useNavigate();
   const loginMutation = useMutation({
     mutationKey: ["login"],
     mutationFn: (model: LoginModel) => {
       return agent.Accounts.login(model);
     },
-    onError: () => {
-      message.error("Incorrect Email or Password");
+    onError: (error: AxiosError) => {
+      message.error(error.response?.data as string);
     },
     onSuccess: (data) => {
       //TODO FIX THIS WHOLE CHECK FOR LOG IN BECAUSE ITS DISGUSTING
@@ -66,7 +70,11 @@ export default function SignIn() {
                   }}
                 ></Input>
               </Form.Item>
-              <Form.Item name="Password" rules={[{ required: true }]}>
+              <Form.Item
+                name="Password"
+                rules={[{ required: true }]}
+                style={{ marginBottom: "0.75rem" }}
+              >
                 <Input.Password
                   placeholder="Enter your password"
                   style={{
@@ -75,8 +83,17 @@ export default function SignIn() {
                   }}
                 ></Input.Password>
               </Form.Item>
+              <div
+                className="mb-1"
+                style={{ cursor: "pointer", color: "var(--secondary-color)" }}
+                onClick={() => navigate(routes.authenticate.signUp)}
+              >
+                Sign Up
+              </div>
               <Form.Item>
-                <Button htmlType="submit">Sign In</Button>
+                <Button htmlType="submit" style={{ width: "100%" }}>
+                  Sign In
+                </Button>
               </Form.Item>
             </Form>
           </div>

@@ -18,14 +18,15 @@ namespace API.Controllers
         {
             _userManager = userManager;
             _tokenService = tokenService;
-
         }
+
         [HttpPost("login")]
         public async Task<ActionResult<UserDTO>> Login(LoginDTO loginDTO)
         {
             var user = await _userManager.FindByEmailAsync(loginDTO.Email);
 
-            if (user == null) return Unauthorized();
+            if (user == null)
+                return Unauthorized();
 
             var result = await _userManager.CheckPasswordAsync(user, loginDTO.Password);
             if (result)
@@ -41,6 +42,7 @@ namespace API.Controllers
                 return Unauthorized();
             }
         }
+
         [HttpPost("register")]
         public async Task<ActionResult<UserDTO>> Register(RegisterDTO registerDTO)
         {
@@ -52,22 +54,19 @@ namespace API.Controllers
             {
                 return BadRequest("Email is already used");
             }
-            var user = new User
-            {
-                Email = registerDTO.Email,
-                UserName = registerDTO.Username
-            };
+            var user = new User { Email = registerDTO.Email, UserName = registerDTO.Username };
             var result = await _userManager.CreateAsync(user, registerDTO.Password);
             if (result.Succeeded)
             {
                 return new UserDTO
                 {
                     Username = user.UserName,
-                    Token = _tokenService.CreateToken(user)
+                    Token = _tokenService.CreateToken(user),
                 };
             }
             return BadRequest("Problem registering user");
         }
+
         [HttpPost("is-user-available")]
         public async Task<IActionResult> IsUserAvaiable([FromBody] UserAvailabilityRequest request)
         {

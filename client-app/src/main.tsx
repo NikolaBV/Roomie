@@ -7,7 +7,7 @@ import HomePage from "./pages/home/Home";
 import PageLayout from "./components/PageLayout";
 import Posts from "./pages/posts/Home";
 import Post from "./pages/post/Home";
-import SignIn from "./pages/sign-in/Home";
+import SignIn from "./pages/auth/sign-in/Home";
 import Profile from "./pages/profile/Home";
 import CreatePost from "./pages/posts/components/create-post/Home";
 import routes from "./utils/PageRoutes";
@@ -15,6 +15,7 @@ import MyPosts from "./pages/profile/components/profile-tabs/tabs/my-posts/MyPos
 import MyRoomie from "./pages/my-roomie/Home";
 import MyRequests from "./pages/profile/components/profile-tabs/tabs/my-requests/MyRequests";
 import PropertyInfo from "./pages/my-roomie/components/tabs/PropertyInfo";
+import SignUp from "./pages/auth/sign-up/Home";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const AppProvider = () => {
               <Route path={routes.posts.posts} element={<Posts />} />
               <Route path={routes.posts.postById} element={<Post />} />
               <Route path={routes.authenticate.signIn} element={<SignIn />} />
+              <Route path={routes.authenticate.signUp} element={<SignUp />} />
               <Route path={routes.profile.home} element={<Profile />} />
               <Route
                 path={routes.profile.myRequests}
