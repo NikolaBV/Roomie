@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Modal, Popconfirm, Table, Tooltip } from "antd/es";
+import { message, Modal, Popconfirm, Table, Tooltip } from "antd/es";
 import agent from "../../../../../../../api/agent";
 import {
   RequestStatus,
@@ -7,6 +7,7 @@ import {
   UpdateRequestStatusDTO,
 } from "../../../../../../../api/models";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { AxiosError } from "axios";
 
 interface Props {
   selectedProjectId: string;
@@ -30,6 +31,9 @@ export default function PendingRequests({
       agent.RoomateRequests.updateStatus(model),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["requestsForPost"] });
+    },
+    onError: (error: AxiosError) => {
+      message.error(error.response?.data as string);
     },
   });
 

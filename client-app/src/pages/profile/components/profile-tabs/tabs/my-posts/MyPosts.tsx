@@ -10,7 +10,7 @@ import ProfileLayout from "../../../ProfileLayout";
 import TableColumns from "./components/PostsColumns";
 
 export default function MyPosts() {
-  const [selectedProjectId, setSelectedProjectId] = useState("");
+  const [selectedRequestId, setSelectedRequestId] = useState("");
 
   const token = getToken();
 
@@ -26,7 +26,9 @@ export default function MyPosts() {
     retry: false,
   });
 
-  const postColumns = TableColumns({ setSelectedProjectId });
+  const postColumns = TableColumns({
+    setSelectedProjectId: setSelectedRequestId,
+  });
 
   return (
     <ProfileLayout>
@@ -39,10 +41,10 @@ export default function MyPosts() {
           pagination={false}
         />
       </div>
-      {selectedProjectId && (
+      {selectedRequestId && (
         <PendingRequests
-          selectedProjectId={selectedProjectId}
-          onCancel={() => setSelectedProjectId("")}
+          selectedProjectId={selectedRequestId}
+          onCancel={() => setSelectedRequestId("")}
         />
       )}
     </ProfileLayout>

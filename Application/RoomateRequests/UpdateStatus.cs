@@ -39,6 +39,8 @@ namespace Application.RoomateRequests
                 var user = await _context.Users.FindAsync(roomateRequest.UserId);
                 if (user == null)
                     return Result<Unit>.Failure("User not found.");
+                if(!user.Available)
+                    return Result<Unit>.Failure("User is already a roomie elsewhere");
 
                 roomateRequest.Status = request.NewStatus;
 
