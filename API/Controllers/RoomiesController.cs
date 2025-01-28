@@ -26,9 +26,9 @@ namespace API.Controllers
             );
         }
 
-        [HttpPost("get-property-by-userId")]
+        [HttpGet("get-property-by-userId")]
         public async Task<ActionResult<Property>> GetPropertyByUserId(
-            [FromBody] string userId,
+            [FromQuery] string userId,
             CancellationToken cancellationToken
         )
         {
@@ -40,19 +40,22 @@ namespace API.Controllers
             );
         }
 
-        [HttpPost("get-users-of-roomie")]
-        public async Task<ActionResult<ICollection<RoomieUser>>> GetUsersOfRoomie([FromBody]string userId)
+        [HttpGet("get-users-of-roomie")]
+        public async Task<ActionResult<ICollection<RoomieUser>>> GetUsersOfRoomie(
+            [FromQuery] string userId
+        )
         {
             return HandleResult(
                 await Mediator.Send(new GetAllUsersForRoomie.Query { UserId = userId })
             );
         }
+
         [HttpPost("remove-roomieUser-by-userId")]
-        public async Task<ActionResult<ICollection<RoomieUser>>> RemoveRoomieUserByUserId([FromBody] string userId)
+        public async Task<ActionResult<ICollection<RoomieUser>>> RemoveRoomieUserByUserId(
+            [FromBody] string userId
+        )
         {
-            return HandleResult(
-                await Mediator.Send(new LeaveRoomie.Command { UserId = userId })
-            );
+            return HandleResult(await Mediator.Send(new LeaveRoomie.Command { UserId = userId }));
         }
     }
 }

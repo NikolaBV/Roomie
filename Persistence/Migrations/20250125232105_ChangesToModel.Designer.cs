@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -10,9 +11,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250125232105_ChangesToModel")]
+    partial class ChangesToModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
@@ -95,7 +98,7 @@ namespace Persistence.Migrations
                     b.Property<int>("NumberOfRooms")
                         .HasColumnType("INTEGER");
 
-                    b.Property<Guid?>("PostId")
+                    b.Property<Guid>("PostId")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Rent")
@@ -410,7 +413,9 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.Post", "Post")
                         .WithOne("Property")
-                        .HasForeignKey("Domain.Property", "PostId");
+                        .HasForeignKey("Domain.Property", "PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.User", "User")
                         .WithMany("Properties")

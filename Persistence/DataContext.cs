@@ -19,7 +19,6 @@ namespace Persistence
         {
             base.OnModelCreating(builder);
 
-            // One-to-many: Users to Posts
             builder
                 .Entity<Post>()
                 .HasOne(p => p.Creator)
@@ -32,13 +31,14 @@ namespace Persistence
                 .HasOne(p => p.Property)
                 .WithOne(prop => prop.Post)
                 .HasForeignKey<Property>(pr => pr.PostId);
+
             builder
                 .Entity<Property>()
-                .HasOne(p => p.User)
-                .WithOne(u => u.Property)
-                .HasForeignKey<Property>(p => p.UserId);
+                .HasOne(p => p.User) 
+                .WithMany(u => u.Properties) 
+                .HasForeignKey(p => p.UserId) 
+                .OnDelete(DeleteBehavior.Cascade);
 
-            // One-to-many: Users to Roommate Requests
             builder
                 .Entity<RoomateRequest>()
                 .HasOne(r => r.User)
@@ -46,7 +46,6 @@ namespace Persistence
                 .HasForeignKey(r => r.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // One-to-many: Posts to Roommate Requests
             builder
                 .Entity<RoomateRequest>()
                 .HasOne(r => r.Post)
@@ -54,7 +53,6 @@ namespace Persistence
                 .HasForeignKey(r => r.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Many-to-Many: Approved Roommates
             builder.Entity<ApprovedRoomate>().HasKey(ar => new { ar.PostId, ar.UserId });
 
             builder
@@ -71,7 +69,7 @@ namespace Persistence
                 .HasForeignKey(ar => ar.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<RoomieUser>().HasKey(ru => new { ru.RoomieId, ru.UserId }); // Composite key
+            builder.Entity<RoomieUser>().HasKey(ru => new { ru.RoomieId, ru.UserId });
 
             builder
                 .Entity<RoomieUser>()
@@ -88,9 +86,7 @@ namespace Persistence
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder.Entity<ApprovedRoomate>().ToTable("ApprovedRoomates");
-
             builder.Entity<ApprovedRoomate>().HasIndex(ar => ar.PostId);
-
             builder.Entity<ApprovedRoomate>().HasIndex(ar => ar.UserId);
         }
     }

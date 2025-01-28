@@ -32,6 +32,27 @@ export interface User {
   createdPosts: Post[];
   roomateRequests: RoomateRequest[];
 }
+export interface RoomieUser {
+  bio: string;
+  available: boolean;
+  propertyId: string;
+  id: string;
+  userName: string;
+  normalizedUserName: string;
+  email: string;
+  normalizedEmail: string;
+  emailConfirmed: boolean;
+  passwordHash: string;
+  securityStamp: string;
+  concurrencyStamp: string;
+  phoneNumber: string | null;
+  phoneNumberConfirmed: boolean;
+  twoFactorEnabled: boolean;
+  lockoutEnd: string | null;
+  lockoutEnabled: boolean;
+  accessFailedCount: number;
+}
+
 export interface LoginModel {
   email: string;
   password: string;
@@ -85,7 +106,17 @@ export interface CreatePostModel {
   createdAt: Date;
   updatedAt: Date;
   userId: string | undefined;
-  PropertyId: string;
+  propertyId: string | null;
+}
+export interface CreatePropertyModel {
+  address: string;
+  apartmentType: ApartmentType;
+  numberOfRooms: number;
+  furnished: boolean;
+  rent: number;
+  additionalNotes: string;
+  userId: string;
+  postId: string | null;
 }
 
 export interface UserAvailabilityModel {

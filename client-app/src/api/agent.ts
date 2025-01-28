@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import {
   CreatePostModel,
+  CreatePropertyModel,
   LoginModel,
   Post,
   PostDetailsResult,
@@ -8,6 +9,7 @@ import {
   RegisterModel,
   RoomateRequest,
   RoomateRequestCreateModel,
+  RoomieUser,
   UpdateRequestStatusDTO,
   User,
   UserAvailabilityModel,
@@ -40,7 +42,7 @@ const Posts = {
     const url = userId ? `/posts/${id}?userId=${userId}` : `/posts/${id}`;
     return requests.get<PostDetailsResult>(url);
   },
-  create: (model: CreatePostModel) => requests.post("/posts", model),
+  create: (model: CreatePostModel) => requests.post<Post>("/posts", model),
   getPostsByUser: (userId: string) =>
     requests.get<Post[]>(`/posts/posts-by-user?userId=${userId}`),
 };
@@ -76,11 +78,17 @@ const Properties = {
     requests.get<Property>(`/properties/get-property?postId=${postId}`),
   listByUserId: (userId: string) =>
     requests.get<Property[]>(`/properties/list-by-userId?userId=${userId}`),
+  create: (model: CreatePropertyModel) =>
+    requests.post<Property>(`/properties/`, model),
 };
 
 const Roomies = {
   IsUserInARoomie: (userId: string) =>
     requests.get<Property>(`/roomies/is-user-a-roomie?userId=${userId}`),
+  GetPropertyInfoByUserId: (userId: string) =>
+    requests.get<Property>(`/roomies/get-property-by-userId?userId=${userId}`),
+  getUsersOfRoomie: (userId: string) =>
+    requests.get<RoomieUser[]>(`/roomies/get-users-of-roomie?userId=${userId}`),
 };
 
 const agent = {
