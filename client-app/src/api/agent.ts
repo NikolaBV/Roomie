@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import {
   CreatePostModel,
   CreatePropertyModel,
+  EditPostModel,
   LoginModel,
   Post,
   PostDetailsResult,
@@ -41,6 +42,9 @@ const Posts = {
   details: (id: string, userId?: string) => {
     const url = userId ? `/posts/${id}?userId=${userId}` : `/posts/${id}`;
     return requests.get<PostDetailsResult>(url);
+  },
+  edit: (id: string, model: EditPostModel) => {
+    return requests.put(`/posts/${id}`, model);
   },
   create: (model: CreatePostModel) => requests.post<Post>("/posts", model),
   getPostsByUser: (userId: string) =>

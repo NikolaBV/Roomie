@@ -1,5 +1,4 @@
-﻿
-using Application.Core;
+﻿using Application.Core;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -13,17 +12,25 @@ namespace Application.Posts
         {
             public string UserId { get; set; }
         }
-        public class Handler : IRequestHandler<Query,Result<List<Post>>>
+
+        public class Handler : IRequestHandler<Query, Result<List<Post>>>
         {
             private readonly DataContext _context;
+
             public Handler(DataContext context)
             {
                 _context = context;
             }
 
-            public async Task<Result<List<Post>>> Handle(Query request, CancellationToken cancellationToken)
+            public async Task<Result<List<Post>>> Handle(
+                Query request,
+                CancellationToken cancellationToken
+            )
             {
-                var posts =  await _context.Posts.Where(p => p.UserId == request.UserId).Include(p => p.RoomateRequests).ToListAsync();
+                var posts = await _context
+                    .Posts.Where(p => p.creatorId == request.UserId)
+                    .Include(p => p.RoomateRequests)
+                    .ToListAsync();
                 return Result<List<Post>>.Success(posts);
             }
         }

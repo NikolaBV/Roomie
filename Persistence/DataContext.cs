@@ -23,7 +23,7 @@ namespace Persistence
                 .Entity<Post>()
                 .HasOne(p => p.Creator)
                 .WithMany(u => u.CreatedPosts)
-                .HasForeignKey(p => p.UserId)
+                .HasForeignKey(p => p.creatorId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder
@@ -34,9 +34,9 @@ namespace Persistence
 
             builder
                 .Entity<Property>()
-                .HasOne(p => p.User) 
-                .WithMany(u => u.Properties) 
-                .HasForeignKey(p => p.UserId) 
+                .HasOne(p => p.User)
+                .WithMany(u => u.Properties)
+                .HasForeignKey(p => p.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder

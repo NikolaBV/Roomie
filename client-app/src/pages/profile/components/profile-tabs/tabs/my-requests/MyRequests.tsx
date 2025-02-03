@@ -16,7 +16,11 @@ export default function MyRequests() {
 
   const userRequests = useQuery({
     queryKey: ["userRequests"],
-    queryFn: () => agent.RoomateRequests.getRequestsForUser(token?.nameid),
+    queryFn: () => {
+      if(token){
+        return agent.RoomateRequests.getRequestsForUser(token?.nameid);
+      }
+    },
     enabled: !!token,
     retry: false,
   });

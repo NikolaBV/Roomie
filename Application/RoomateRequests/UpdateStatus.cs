@@ -39,7 +39,7 @@ namespace Application.RoomateRequests
                 var user = await _context.Users.FindAsync(roomateRequest.UserId);
                 if (user == null)
                     return Result<Unit>.Failure("User not found.");
-                if(!user.Available)
+                if (!user.Available)
                     return Result<Unit>.Failure("User is already a roomie elsewhere");
 
                 roomateRequest.Status = request.NewStatus;
@@ -69,7 +69,7 @@ namespace Application.RoomateRequests
                         roomie = new Roomie
                         {
                             PostId = post.Id,
-                            OwnerId = post.UserId,
+                            OwnerId = post.creatorId,
                             RoomieUsers = new List<RoomieUser>(),
                         };
                         _context.Roomies.Add(roomie);

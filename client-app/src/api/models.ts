@@ -23,6 +23,7 @@ export interface Post {
   updatedAt: string;
   property: Property;
   propertyId: string;
+  creatorId: string;
   roomateRequests: RoomateRequest[];
 }
 export interface User {
@@ -133,4 +134,11 @@ export interface Property {
   additionalNotes: string;
   postId: string;
   post: Post;
+}
+
+export interface EditPostModel {
+  id: string;
+  title: string;
+  description: string;
+  freeSpots: number;
 }
