@@ -71,7 +71,7 @@ export default function CreatePost() {
         status: true,
         createdAt: dayjs().toDate(),
         updatedAt: dayjs().toDate(),
-        userId: user.nameid,
+        creatorId: user.nameid,
         propertyId: propertyId || null,
       };
 

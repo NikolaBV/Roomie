@@ -106,7 +106,7 @@ export interface CreatePostModel {
   status: boolean;
   createdAt: Date;
   updatedAt: Date;
-  userId: string | undefined;
+  creatorId: string | undefined;
   propertyId: string | null;
 }
 export interface CreatePropertyModel {
