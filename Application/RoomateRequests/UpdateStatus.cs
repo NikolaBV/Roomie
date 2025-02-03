@@ -54,15 +54,6 @@ namespace Application.RoomateRequests
                     post.FreeSpots -= 1;
                     user.Available = false;
 
-                    var approvedRoomate = new ApprovedRoomate
-                    {
-                        PostId = roomateRequest.PostId,
-                        UserId = roomateRequest.UserId,
-                        ApprovedAt = DateTime.UtcNow,
-                    };
-
-                    _context.ApprovedRoomates.Add(approvedRoomate);
-
                     var roomie = _context.Roomies.FirstOrDefault(r => r.PostId == post.Id);
                     if (roomie == null)
                     {

@@ -6,6 +6,7 @@ using Application.Core;
 using Domain;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Persistence;
 
 namespace Application.Roomies
@@ -39,28 +40,41 @@ namespace Application.Roomies
                     return Result<Unit>.Failure("Not found");
                 }
 
-                /**Declared this in advance to delete it later because .NET doesn't like to itarate trough 
+                /**Declared this in advance to delete it later because .NET doesn't like to itarate trough
                  * collections and modify them at the same time and i was getting this exceptioN:
-                 * 
+                 *
                  * Collection was modified; enumeration operation may not execute.
                  
                 */
 
                 var roomieUserToBeRemoved = new RoomieUser();
 
-                foreach(var roomieUser in roomie.RoomieUsers)
+                foreach (var roomieUser in roomie.RoomieUsers)
                 {
-                    if(roomieUser.UserId == request.UserId)
+                    if (roomieUser.UserId == request.UserId)
                     {
                         roomieUserToBeRemoved = roomieUser;
                     }
                 }
 
                 roomie.RoomieUsers.Remove(roomieUserToBeRemoved);
+
+                var user = _context.Users.FirstOrDefault(u => u.Id == roomieUserToBeRemoved.UserId);
+                user.Available = true;
+
+                var post = _context.Posts.FirstOrDefault(p => p.Id == roomie.PostId);
+
+                var roomateRequest = _context.RoomateRequests.FirstOrDefault(rr =>
+                    rr.UserId == user.Id && rr.PostId == post.Id
+                );
+
+                post.FreeSpots += 1;
+
+                _context.RoomateRequests.Remove(roomateRequest);
+
                 await _context.SaveChangesAsync();
 
                 return Result<Unit>.Success(Unit.Value);
-
             }
         }
     }
