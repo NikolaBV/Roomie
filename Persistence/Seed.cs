@@ -43,26 +43,26 @@ namespace Persistence
                         Id = Guid.NewGuid(),
                         Title = "Room Available Near University",
                         Description =
-                            "Spacious room available in a 3-bedroom house, 10 minutes from campus. Ideal for students. Rent is $500/month, excluding utilities. Shared living room and kitchen.",
+                            "Spacious room available in a 3-bedroom house, 10 minutes from campus. Ideal for students.",
                         Status = false,
                         FreeSpots = 1,
                         CreatedAt = DateTime.Now.AddDays(-7),
                         UpdatedAt = DateTime.Now.AddDays(-6),
-                        creatorId = user2.Id,
+                        CreatorId = user2.Id,
                     },
                     new Post
                     {
                         Id = Guid.NewGuid(),
                         Title = "Shared House with Garden",
                         Description =
-                            "Room available in a 4-bedroom house with a garden. Great for someone who enjoys a quiet, homely atmosphere. Rent is $550/month, plus utilities. Pets are welcome!",
+                            "Room available in a 4-bedroom house with a garden. Rent is $550/month, plus utilities.",
                         Status = true,
                         FreeSpots = 2,
                         CreatedAt = DateTime.Now.AddDays(-3),
                         UpdatedAt = DateTime.Now.AddDays(-2),
-                        creatorId = user2.Id,
+                        CreatorId = user2.Id,
                     },
-                     new Post
+                    new Post
                     {
                         Id = Guid.NewGuid(),
                         Title = "Търся си съквартирант",
@@ -72,7 +72,7 @@ namespace Persistence
                         FreeSpots = 1,
                         CreatedAt = DateTime.Now.AddDays(-7),
                         UpdatedAt = DateTime.Now.AddDays(-6),
-                        creatorId = user1.Id,
+                        CreatorId = user1.Id,
                     },
                 };
 
@@ -89,16 +89,31 @@ namespace Persistence
                     new Property
                     {
                         Id = Guid.NewGuid(),
+                        Address = "жк Тракия 3325",
+                        ApartmentType = ApartmentType.ThreeBedroom,
+                        NumberOfRooms = 4,
+                        Furnished = true,
+                        Rent = 1000,
+                        AdditionalNotes = "Домашни любимци са позволени",
+                        PostId =
+                            seededPosts.FirstOrDefault(p => p.Title == "Търся си съквартирант")?.Id
+                            ?? Guid.NewGuid(),
+                        UserId = user1.Id,
+                    },
+                    new Property
+                    {
+                        Id = Guid.NewGuid(),
                         Address = "123 Main Street, City Center",
                         ApartmentType = ApartmentType.TwoBedroom,
                         NumberOfRooms = 2,
                         Furnished = true,
                         Rent = 1400,
                         AdditionalNotes = "Close to public transport and fully furnished.",
-                        PostId = seededPosts
-                            .First(p => p.Title == "Cozy Apartment in City Center")
-                            .Id,
-                        UserId = user1.Id,
+                        PostId =
+                            seededPosts
+                                .FirstOrDefault(p => p.Title == "Shared House with Garden")
+                                ?.Id ?? Guid.NewGuid(),
+                        UserId = user2.Id,
                     },
                     new Property
                     {
@@ -109,34 +124,11 @@ namespace Persistence
                         Furnished = false,
                         Rent = 1500,
                         AdditionalNotes = "Ideal for students, 10 minutes from campus.",
-                        PostId = seededPosts
-                            .First(p => p.Title == "Room Available Near University")
-                            .Id,
-                        UserId = user1.Id,
-                    },
-                    new Property
-                    {
-                        Id = Guid.NewGuid(),
-                        Address = "789 Garden Lane",
-                        ApartmentType = ApartmentType.ThreeBedroom,
-                        NumberOfRooms = 4,
-                        Furnished = true,
-                        Rent = 2200,
-                        AdditionalNotes = "Spacious garden, pets allowed.",
-                        PostId = seededPosts.First(p => p.Title == "Shared House with Garden").Id,
+                        PostId =
+                            seededPosts
+                                .FirstOrDefault(p => p.Title == "Room Available Near University")
+                                ?.Id ?? Guid.NewGuid(),
                         UserId = user2.Id,
-                    },
-                     new Property
-                    {
-                        Id = Guid.NewGuid(),
-                        Address = "жк Тракия 3325",
-                        ApartmentType = ApartmentType.ThreeBedroom,
-                        NumberOfRooms = 4,
-                        Furnished = true,
-                        Rent = 1000,
-                        AdditionalNotes = "Домашни любимци са позволени",
-                        PostId = seededPosts.First(p => p.Title == "Търся си съквартирант").Id,
-                        UserId = user1.Id,
                     },
                 };
 
@@ -145,9 +137,14 @@ namespace Persistence
 
                 foreach (var post in seededPosts)
                 {
-                    var property = properties.First(p => p.PostId == post.Id);
-                    post.PropertyId = property.Id;
-                    property.UserId = post.creatorId;
+                    var property = properties.FirstOrDefault(property =>
+                        property.PostId == post.Id
+                    );
+                    if (property != null)
+                    {
+                        post.PropertyId = property.Id;
+                        property.UserId = post.CreatorId;
+                    }
                 }
 
                 context.Posts.UpdateRange(seededPosts);

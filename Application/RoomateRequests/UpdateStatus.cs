@@ -60,7 +60,7 @@ namespace Application.RoomateRequests
                         roomie = new Roomie
                         {
                             PostId = post.Id,
-                            OwnerId = post.creatorId,
+                            OwnerId = post.CreatorId,
                             RoomieUsers = new List<RoomieUser>(),
                         };
                         _context.Roomies.Add(roomie);

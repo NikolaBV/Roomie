@@ -15,9 +15,6 @@ namespace Domain
         public ICollection<RoomateRequest> RoomateRequests { get; set; }
 
         [JsonIgnore]
-        public ICollection<ApprovedRoomate> ApprovedPosts { get; set; }
-
-        [JsonIgnore]
         public ICollection<Property> Properties { get; set; }
     }
 }

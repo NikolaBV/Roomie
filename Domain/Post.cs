@@ -12,7 +12,7 @@ namespace Domain
         public int FreeSpots { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public string creatorId { get; set; }
+        public string CreatorId { get; set; }
 
         [JsonIgnore]
         public User Creator { get; set; }
@@ -23,9 +23,6 @@ namespace Domain
 
         [JsonIgnore]
         public ICollection<RoomateRequest> RoomateRequests { get; set; }
-
-        [JsonIgnore]
-        public ICollection<ApprovedRoomate> ApprovedRoomates { get; set; }
 
         [JsonIgnore]
         public Roomie Roomie { get; set; }

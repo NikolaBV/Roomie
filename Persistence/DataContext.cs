@@ -11,7 +11,6 @@ namespace Persistence
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<RoomateRequest> RoomateRequests { get; set; }
-        public DbSet<ApprovedRoomate> ApprovedRoomates { get; set; }
         public DbSet<Property> Properties { get; set; }
         public DbSet<Roomie> Roomies { get; set; }
 
@@ -23,7 +22,7 @@ namespace Persistence
                 .Entity<Post>()
                 .HasOne(p => p.Creator)
                 .WithMany(u => u.CreatedPosts)
-                .HasForeignKey(p => p.creatorId)
+                .HasForeignKey(p => p.CreatorId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             builder
@@ -53,22 +52,6 @@ namespace Persistence
                 .HasForeignKey(r => r.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Entity<ApprovedRoomate>().HasKey(ar => new { ar.PostId, ar.UserId });
-
-            builder
-                .Entity<ApprovedRoomate>()
-                .HasOne(ar => ar.Post)
-                .WithMany(p => p.ApprovedRoomates)
-                .HasForeignKey(ar => ar.PostId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            builder
-                .Entity<ApprovedRoomate>()
-                .HasOne(ar => ar.User)
-                .WithMany(u => u.ApprovedPosts)
-                .HasForeignKey(ar => ar.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             builder.Entity<RoomieUser>().HasKey(ru => new { ru.RoomieId, ru.UserId });
 
             builder
@@ -84,10 +67,6 @@ namespace Persistence
                 .WithMany()
                 .HasForeignKey(ru => ru.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            builder.Entity<ApprovedRoomate>().ToTable("ApprovedRoomates");
-            builder.Entity<ApprovedRoomate>().HasIndex(ar => ar.PostId);
-            builder.Entity<ApprovedRoomate>().HasIndex(ar => ar.UserId);
         }
     }
 }

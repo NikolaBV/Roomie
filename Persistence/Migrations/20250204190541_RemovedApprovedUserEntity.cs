@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedPropertiesTable : Migration
+    public partial class RemovedApprovedUserEntity : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -169,41 +169,16 @@ namespace Persistence.Migrations
                     FreeSpots = table.Column<int>(type: "INTEGER", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UserId = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatorId = table.Column<string>(type: "TEXT", nullable: true),
                     PropertyId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posts", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_AspNetUsers_UserId",
-                        column: x => x.UserId,
+                        name: "FK_Posts_AspNetUsers_CreatorId",
+                        column: x => x.CreatorId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ApprovedRoomates",
-                columns: table => new
-                {
-                    UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    PostId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ApprovedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ApprovedRoomates", x => new { x.PostId, x.UserId });
-                    table.ForeignKey(
-                        name: "FK_ApprovedRoomates_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ApprovedRoomates_Posts_PostId",
-                        column: x => x.PostId,
-                        principalTable: "Posts",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -219,17 +194,23 @@ namespace Persistence.Migrations
                     Furnished = table.Column<bool>(type: "INTEGER", nullable: false),
                     Rent = table.Column<decimal>(type: "TEXT", nullable: false),
                     AdditionalNotes = table.Column<string>(type: "TEXT", nullable: true),
-                    PostId = table.Column<Guid>(type: "TEXT", nullable: false)
+                    PostId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Properties", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Properties_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
                         name: "FK_Properties_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -259,15 +240,49 @@ namespace Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_ApprovedRoomates_PostId",
-                table: "ApprovedRoomates",
-                column: "PostId");
+            migrationBuilder.CreateTable(
+                name: "Roomies",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    PostId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    OwnerId = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Roomies", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Roomies_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_ApprovedRoomates_UserId",
-                table: "ApprovedRoomates",
-                column: "UserId");
+            migrationBuilder.CreateTable(
+                name: "RoomieUser",
+                columns: table => new
+                {
+                    RoomieId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RoomieUser", x => new { x.RoomieId, x.UserId });
+                    table.ForeignKey(
+                        name: "FK_RoomieUser_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_RoomieUser_Roomies_RoomieId",
+                        column: x => x.RoomieId,
+                        principalTable: "Roomies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -307,15 +322,20 @@ namespace Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserId",
+                name: "IX_Posts_CreatorId",
                 table: "Posts",
-                column: "UserId");
+                column: "CreatorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Properties_PostId",
                 table: "Properties",
                 column: "PostId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Properties_UserId",
+                table: "Properties",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoomateRequests_PostId",
@@ -326,14 +346,22 @@ namespace Persistence.Migrations
                 name: "IX_RoomateRequests_UserId",
                 table: "RoomateRequests",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Roomies_PostId",
+                table: "Roomies",
+                column: "PostId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_RoomieUser_UserId",
+                table: "RoomieUser",
+                column: "UserId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "ApprovedRoomates");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -356,7 +384,13 @@ namespace Persistence.Migrations
                 name: "RoomateRequests");
 
             migrationBuilder.DropTable(
+                name: "RoomieUser");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Roomies");
 
             migrationBuilder.DropTable(
                 name: "Posts");

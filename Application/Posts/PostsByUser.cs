@@ -28,7 +28,7 @@ namespace Application.Posts
             )
             {
                 var posts = await _context
-                    .Posts.Where(p => p.creatorId == request.UserId)
+                    .Posts.Where(p => p.CreatorId == request.UserId)
                     .Include(p => p.RoomateRequests)
                     .ToListAsync();
                 return Result<List<Post>>.Success(posts);

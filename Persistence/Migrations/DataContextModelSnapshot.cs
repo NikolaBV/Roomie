@@ -17,26 +17,6 @@ namespace Persistence.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.11");
 
-            modelBuilder.Entity("Domain.ApprovedRoomate", b =>
-                {
-                    b.Property<Guid>("PostId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("ApprovedAt")
-                        .HasColumnType("TEXT");
-
-                    b.HasKey("PostId", "UserId");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("ApprovedRoomates", (string)null);
-                });
-
             modelBuilder.Entity("Domain.Post", b =>
                 {
                     b.Property<Guid>("Id")
@@ -44,6 +24,9 @@ namespace Persistence.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("CreatorId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Description")
@@ -64,12 +47,9 @@ namespace Persistence.Migrations
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("creatorId")
-                        .HasColumnType("TEXT");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("creatorId");
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Posts");
                 });
@@ -377,30 +357,11 @@ namespace Persistence.Migrations
                     b.ToTable("Roomies");
                 });
 
-            modelBuilder.Entity("Domain.ApprovedRoomate", b =>
-                {
-                    b.HasOne("Domain.Post", "Post")
-                        .WithMany("ApprovedRoomates")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.User", "User")
-                        .WithMany("ApprovedPosts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Domain.Post", b =>
                 {
                     b.HasOne("Domain.User", "Creator")
                         .WithMany("CreatedPosts")
-                        .HasForeignKey("creatorId")
+                        .HasForeignKey("CreatorId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Creator");
@@ -523,8 +484,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.Post", b =>
                 {
-                    b.Navigation("ApprovedRoomates");
-
                     b.Navigation("Property");
 
                     b.Navigation("RoomateRequests");
@@ -534,8 +493,6 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.User", b =>
                 {
-                    b.Navigation("ApprovedPosts");
-
                     b.Navigation("CreatedPosts");
 
                     b.Navigation("Properties");
