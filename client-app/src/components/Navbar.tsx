@@ -2,6 +2,7 @@ import { ConfigProvider, Dropdown, Menu, MenuProps, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import routes from "../utils/PageRoutes";
+import { signOut } from "../utils/globals";
 
 export default function Navbar() {
   const [current, setCurrent] = useState("");
@@ -14,8 +15,7 @@ export default function Navbar() {
       key: "1",
       label: "Log Out",
       onClick: () => {
-        localStorage.removeItem("token");
-        message.success("You have been signed out");
+        signOut();
       },
     },
   ];

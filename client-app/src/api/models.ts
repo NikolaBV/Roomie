@@ -87,6 +87,7 @@ export interface UpdateRequestStatusDTO {
   newStatus: RequestStatus;
 }
 export interface DecodedToken {
+  email: string;
   exp: number;
   iat: number;
   nameid: string;
