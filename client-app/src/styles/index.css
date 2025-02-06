@@ -293,8 +293,7 @@ body {
 .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+
   width: 100%;
   flex: 1;
   min-height: 100vh;
@@ -303,7 +302,13 @@ body {
   display: flex;
   flex-direction: column;
 }
-
+.blue-gradient {
+  background: linear-gradient(
+    0deg,
+    rgba(6, 71, 137, 0.3927696078431373) 0%,
+    rgba(66, 122, 161, 1) 100%
+  );
+}
 .heading-text {
   color: var(--text-color);
   font-size: 1.25rem;

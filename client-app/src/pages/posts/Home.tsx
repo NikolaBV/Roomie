@@ -17,7 +17,14 @@ export default function Posts() {
   const navigate = useNavigate();
 
   return (
-    <div className="container column">
+    <div
+      className="container column"
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
       <h1 style={{ fontSize: "5rem" }}>Posts</h1>
       <Tooltip title="Create Post">
         <div
